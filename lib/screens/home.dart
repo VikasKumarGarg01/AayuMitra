@@ -1,4 +1,6 @@
+import 'package:aayumitra/screens/settings/profile.dart';
 import 'package:flutter/material.dart';
+// import 'settings.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -109,18 +111,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-    );
-  }
-}
-
-// Profile Screen (UI only)
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Profile')),
-      body: const Center(child: Text('Profile Screen')),
     );
   }
 }

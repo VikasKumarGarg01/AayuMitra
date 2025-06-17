@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   final List<String> imagePaths = [
     'assets/images/1.jpg',
     'assets/images/2.jpg',
-    'assets/images/3.jpg',
+    'assets/images/5.jpg',
     'assets/images/4.jpg',
   ];
 
@@ -154,10 +154,8 @@ class _SplashScreenState extends State<SplashScreen> {
                           gradient: LinearGradient(
                             colors: [
                               Colors.pink.shade100,
-                              Colors.red.shade100,
+                              // Colors.red.shade100,
                               Colors.yellow.shade100,
-                              Colors.blue.shade100,
-                              Colors.white,
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
