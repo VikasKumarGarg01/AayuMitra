@@ -1,5 +1,7 @@
 import 'package:aayumitra/screens/homescreen/home.dart';
+import 'package:aayumitra/screens/signin/userselection/bluetooh.dart';
 import 'package:flutter/material.dart';
+// import 'bluetooth_page.dart';
 
 class UserRolePage extends StatefulWidget {
   const UserRolePage({super.key});
@@ -10,13 +12,35 @@ class UserRolePage extends StatefulWidget {
 
 class _UserRolePageState extends State<UserRolePage> {
   String? _selectedRole;
+  final List<String> _careOptions = [
+    'Professional Care',
+    'Day Care',
+    'Family Care',
+    'Nursing Care',
+  ];
+  final List<String> _addedOptions = [];
+
+  void _toggleCareOption(String option) {
+    setState(() {
+      if (_addedOptions.contains(option)) {
+        _addedOptions.remove(option);
+      } else if (_addedOptions.length < 3) {
+        _addedOptions.add(option);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final isCaregiver = _selectedRole == 'Caregiver';
+    final canContinue =
+        _selectedRole == 'Senior' ||
+        (_selectedRole == 'Caregiver' && _addedOptions.length >= 3);
+
     return Scaffold(
       appBar: AppBar(
-        // title: const Text('Who is using the app?'),
-        // automaticallyImplyLeading: false,
+        title: const Text('Who is using the app?'),
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -24,17 +48,8 @@ class _UserRolePageState extends State<UserRolePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              'I am a...',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 40),
-            const Text(
               'Select your role',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-                color: Colors.grey,
-              ),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 32),
             Row(
@@ -44,25 +59,89 @@ class _UserRolePageState extends State<UserRolePage> {
                   label: 'Senior',
                   icon: Icons.elderly,
                   selected: _selectedRole == 'Senior',
-                  onTap: () => setState(() => _selectedRole = 'Senior'),
+                  onTap: () => setState(() {
+                    _selectedRole = 'Senior';
+                    _addedOptions.clear();
+                  }),
                 ),
-                const SizedBox(width: 40),
+                const SizedBox(width: 32),
                 _RoleOption(
                   label: 'Caregiver',
                   icon: Icons.volunteer_activism,
                   selected: _selectedRole == 'Caregiver',
-                  onTap: () => setState(() => _selectedRole = 'Caregiver'),
+                  onTap: () => setState(() {
+                    _selectedRole = 'Caregiver';
+                    _addedOptions.clear();
+                  }),
                 ),
               ],
             ),
+            if (isCaregiver) ...[
+              const SizedBox(height: 32),
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.teal.withOpacity(0.05),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.teal),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Select at least 3 care options:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 12),
+                    Wrap(
+                      spacing: 12,
+                      runSpacing: 8,
+                      children: _careOptions.map((option) {
+                        final added = _addedOptions.contains(option);
+                        return ElevatedButton.icon(
+                          icon: Icon(
+                            added
+                                ? Icons.check_circle
+                                : Icons.add_circle_outline,
+                            color: added ? Colors.green : Colors.teal,
+                          ),
+                          label: Text(option),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: added
+                                ? Colors.green[50]
+                                : Colors.white,
+                            foregroundColor: Colors.teal,
+                            side: BorderSide(
+                              color: added ? Colors.green : Colors.teal,
+                            ),
+                          ),
+                          onPressed: () => _toggleCareOption(option),
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Selected: ${_addedOptions.length}/3',
+                      style: TextStyle(
+                        color: _addedOptions.length >= 3
+                            ? Colors.green
+                            : Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
             const SizedBox(height: 40),
             ElevatedButton(
-              onPressed: _selectedRole != null
+              onPressed: canContinue
                   ? () {
-                      Navigator.pushAndRemoveUntil(
+                      Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (_) => const HomeScreen()),
-                        (route) => false,
+                        MaterialPageRoute(
+                          builder: (_) => const BluetoothPage(),
+                        ),
                       );
                     }
                   : null,
@@ -96,7 +175,7 @@ class _RoleOption extends StatelessWidget {
       child: Column(
         children: [
           CircleAvatar(
-            radius: selected ? 60 : 40,
+            radius: selected ? 38 : 32,
             backgroundColor: selected ? Colors.teal : Colors.grey[300],
             child: Icon(
               icon,

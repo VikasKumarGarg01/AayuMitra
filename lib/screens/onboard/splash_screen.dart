@@ -3,7 +3,7 @@ import 'package:aayumitra/screens/signin/signup_page.dart';
 import 'package:aayumitra/screens/signin/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:aayumitra/redundant/devices/bluetooh.dart';
+import 'package:aayumitra/screens/signin/userselection/bluetooh.dart';
 import 'package:aayumitra/screens/homescreen/home.dart';
 
 class SplashScreen extends StatefulWidget {
