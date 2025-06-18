@@ -1,4 +1,4 @@
-import 'package:aayumitra/screens/splash_screen.dart';
+import 'package:aayumitra/screens/onboard/splash_screen.dart';
 import 'package:flutter/material.dart';
 // import 'splash_screen.dart';
 

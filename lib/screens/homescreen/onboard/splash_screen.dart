@@ -1,6 +1,6 @@
-import 'package:aayumitra/screens/home.dart';
-import 'package:aayumitra/screens/signin.dart';
-import 'package:aayumitra/screens/bluetooh.dart';
+import 'package:aayumitra/screens/homescreen/home.dart';
+import 'package:aayumitra/redundant/signin.dart';
+import 'package:aayumitra/redundant/devices/bluetooh.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
