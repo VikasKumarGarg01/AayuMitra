@@ -1,3 +1,4 @@
+import 'package:aayumitra/screens/homescreen/home.dart';
 import 'package:flutter/material.dart';
 
 class UserRolePage extends StatefulWidget {
@@ -14,8 +15,8 @@ class _UserRolePageState extends State<UserRolePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Who is using the app?'),
-        automaticallyImplyLeading: false,
+        // title: const Text('Who is using the app?'),
+        // automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -23,8 +24,17 @@ class _UserRolePageState extends State<UserRolePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
+              'I am a...',
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 40),
+            const Text(
               'Select your role',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+                color: Colors.grey,
+              ),
             ),
             const SizedBox(height: 32),
             Row(
@@ -36,7 +46,7 @@ class _UserRolePageState extends State<UserRolePage> {
                   selected: _selectedRole == 'Senior',
                   onTap: () => setState(() => _selectedRole = 'Senior'),
                 ),
-                const SizedBox(width: 32),
+                const SizedBox(width: 40),
                 _RoleOption(
                   label: 'Caregiver',
                   icon: Icons.volunteer_activism,
@@ -49,7 +59,11 @@ class _UserRolePageState extends State<UserRolePage> {
             ElevatedButton(
               onPressed: _selectedRole != null
                   ? () {
-                      // Proceed to next screen
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (_) => const HomeScreen()),
+                        (route) => false,
+                      );
                     }
                   : null,
               child: const Text("Let's Go"),
@@ -82,7 +96,7 @@ class _RoleOption extends StatelessWidget {
       child: Column(
         children: [
           CircleAvatar(
-            radius: selected ? 38 : 32,
+            radius: selected ? 60 : 40,
             backgroundColor: selected ? Colors.teal : Colors.grey[300],
             child: Icon(
               icon,

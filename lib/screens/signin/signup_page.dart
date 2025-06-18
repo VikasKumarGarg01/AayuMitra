@@ -1,5 +1,5 @@
 import 'package:aayumitra/screens/homescreen/home.dart';
-import 'package:aayumitra/userselection/user_role_page.dart';
+import 'package:aayumitra/screens/signin/userselection/user_role_page.dart';
 import 'package:flutter/material.dart';
 import 'signin.dart';
 // import 'package:aayumitra/home/home_screen.dart';
@@ -177,7 +177,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => const HomeScreen(),
+                              builder: (_) => const UserRolePage(),
                             ),
                             (route) => false,
                           );
