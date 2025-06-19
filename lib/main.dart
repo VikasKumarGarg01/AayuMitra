@@ -1,3 +1,4 @@
+import 'package:aayumitra/screens/homescreen/home.dart';
 import 'package:flutter/material.dart';
 import 'screens/onboard/splash_screen.dart';
 
@@ -13,7 +14,7 @@ class AayuMitraApp extends StatelessWidget {
     return MaterialApp(
       title: 'AayuMitra',
       theme: ThemeData(primarySwatch: Colors.teal),
-      home: const SplashScreen(),
+      home: const HomeScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
