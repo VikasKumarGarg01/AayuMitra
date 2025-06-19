@@ -2,6 +2,8 @@ import 'package:aayumitra/screens/onboard/splash_screen.dart';
 import 'package:flutter/material.dart';
 // import 'splash_screen.dart';
 
+
+
 class AccountSettingsPage extends StatelessWidget {
   const AccountSettingsPage({super.key});
 

@@ -1,7 +1,11 @@
 import 'dart:ui';
 import 'package:aayumitra/screens/profilemenu/accountsettings.dart';
-import 'package:aayumitra/screens/profilemenu/privacypolicy.dart';
+import 'package:aayumitra/screens/profilemenu/accountsettingsheet.dart';
 import 'package:aayumitra/screens/profilemenu/contactus.dart';
+import 'package:aayumitra/screens/profilemenu/language.dart';
+import 'package:aayumitra/screens/profilemenu/meetteam.dart';
+import 'package:aayumitra/screens/profilemenu/privacy.dart';
+// import 'package:aayumitra/screens/profilemenu/contactus.dart';
 import 'package:flutter/material.dart';
 
 class ProfileSheet extends StatefulWidget {
@@ -16,25 +20,18 @@ class _ProfilesheetState extends State<ProfileSheet>
   late AnimationController _controller;
   late Animation<Offset> _slideAnimation;
 
-  void _openAccountSettings(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const AccountSettingsPage()),
-    );
-  }
+  String _name = 'Robert Smith';
+  String _email = 'Robert@gmail.com';
+  String _address = 'Mumbai 400050';
+  String _phone = '222-444-1111';
 
-  void _openPrivacyPolicy(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const PrivacyPolicyPage()),
-    );
-  }
-
-  void _contactUs(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const ContactUsSheet()),
-    );
+  void _updateProfileField(String field, String value) {
+    setState(() {
+      if (field == 'Name') _name = value;
+      if (field == 'Email') _email = value;
+      if (field == 'Address') _address = value;
+      if (field == 'Phone') _phone = value;
+    });
   }
 
   @override
@@ -138,14 +135,19 @@ class _ProfilesheetState extends State<ProfileSheet>
                               ListTile(
                                 leading: const Icon(Icons.language),
                                 title: const Text('Language'),
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  showLanguageSheet(context, (langCode) {
+                                    // Set app language here
+                                  });
+                                },
                               ),
                               //
-                              ListTile(
-                                leading: const Icon(Icons.history),
-                                title: const Text('Recent Orders'),
-                                onTap: () {},
-                              ),
+                              // ListTile(
+                              //   leading: const Icon(Icons.history),
+                              //   title: const Text('Recent Orders'),
+                              //   onTap: () {},
+                              // ),
 
                               // ListTile(
                               //   leading: const Icon(Icons.settings),
@@ -157,25 +159,55 @@ class _ProfilesheetState extends State<ProfileSheet>
                                 leading: const Icon(Icons.person),
                                 title: const Text('Account Settings'),
                                 // trailing: const Icon(Icons.arrow_forward_ios),
-                                onTap: () => _openAccountSettings(context),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  showGeneralDialog(
+                                    context: context,
+                                    barrierDismissible: true,
+                                    barrierLabel: "Account Settings",
+                                    barrierColor: Colors.black.withOpacity(0.3),
+                                    transitionDuration: const Duration(
+                                      milliseconds: 350,
+                                    ),
+                                    pageBuilder: (context, anim1, anim2) =>
+                                        const SizedBox.shrink(),
+                                    transitionBuilder:
+                                        (context, anim1, anim2, child) {
+                                          return AccountSettingsSheet(
+                                            name: _name,
+                                            email: _email,
+                                            address: _address,
+                                            phone: _phone,
+                                            onUpdate: _updateProfileField,
+                                          );
+                                        },
+                                  );
+                                },
                               ),
                               ListTile(
                                 leading: const Icon(Icons.privacy_tip),
                                 title: const Text('Privacy Policy'),
                                 // trailing: const Icon(Icons.arrow_forward_ios),
-                                onTap: () => _openPrivacyPolicy(context),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  showPrivacyPolicySheet(context);
+                                },
                               ),
                               ListTile(
                                 leading: const Icon(Icons.contact_support),
                                 title: const Text('Contact Us'),
                                 onTap: () {
-                                  _contactUs(context);
+                                  Navigator.pop(context);
+                                  showContactUsSheet(context);
                                 },
                               ),
                               ListTile(
-                                leading: const Icon(Icons.people),
+                                leading: const Icon(Icons.group),
                                 title: const Text('Meet Our Team'),
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  showMeetOurTeamSheet(context);
+                                },
                               ),
                             ],
                           ),
