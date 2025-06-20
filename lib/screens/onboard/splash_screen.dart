@@ -19,10 +19,10 @@ class _SplashScreenState extends State<SplashScreen> {
   final PageController _pageController = PageController();
 
   final List<String> imagePaths = [
-    'assets/images/1.jpg',
+    'assets/images/6.jpg',
     'assets/images/2.jpg',
     'assets/images/5.jpg',
-    'assets/images/4.jpg',
+    'assets/images/7.jpg',
   ];
 
   final List<String> descriptions = [
@@ -42,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 5), () {
       setState(() {
         _showIntro = true;
       });
@@ -139,23 +139,23 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/images/logo.png', width: 120, height: 120),
+              Image.asset('assets/images/logo.png', width: 150, height: 150),
               const SizedBox(height: 20),
               const Text(
                 'AayuMitra',
                 style: TextStyle(
                   color: Colors.teal, // teal text
-                  fontSize: 28,
+                  fontSize: 35,
                   fontWeight: FontWeight.bold,
-                  letterSpacing: 2,
+                  letterSpacing: 3,
                 ),
               ),
               const Text(
                 'Designed by Vikas Kumar Garg',
                 style: TextStyle(
                   color: Colors.teal,
-                  fontSize: 5,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  // fontWeight: FontWeight.bold,
                   fontStyle: FontStyle.italic,
                 ),
               ),
@@ -184,14 +184,28 @@ class _SplashScreenState extends State<SplashScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        width: 425,
-                        height: 425,
-                        child: ClipOval(
+                        decoration: BoxDecoration(
+                          color: Colors.teal[50],
+                          borderRadius: BorderRadius.circular(50),
+                          boxShadow: [
+                            BoxShadow(
+                              // ignore: deprecated_member_use
+                              color: Colors.teal.withOpacity(0.2),
+                              blurRadius: 10,
+                              offset: const Offset(5, 5),
+                              // blurRadius: BorderRadius.circular(25),
+                            ),
+                          ],
+                        ),
+                        width: 400,
+                        height: 350,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
                           child: Image.asset(
                             imagePaths[index],
                             fit: BoxFit.cover,
-                            width: 200,
-                            height: 200,
+                            width: 400,
+                            height: 350,
                             // alignment: Alignment.center,
                             // color: Colors.white,
                           ),
@@ -200,14 +214,20 @@ class _SplashScreenState extends State<SplashScreen> {
                       const SizedBox(height: 25),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                        child: Text(
-                          paragraphs[index],
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: Color.fromARGB(137, 71, 52, 82),
-                            fontStyle: FontStyle.italic,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0,
+                            vertical: 5,
                           ),
-                          textAlign: TextAlign.center,
+                          child: Text(
+                            paragraphs[index],
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.teal[700],
+                              fontStyle: FontStyle.italic,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                     ],
@@ -219,36 +239,40 @@ class _SplashScreenState extends State<SplashScreen> {
               flex: 2,
               child: Stack(
                 children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SmoothPageIndicator(
-                          controller: _pageController,
-                          count: imagePaths.length,
-                          effect: WormEffect(
-                            dotColor: const Color.fromARGB(255, 231, 228, 232),
-                            activeDotColor: const Color.fromARGB(
-                              255,
-                              131,
-                              51,
-                              159,
+                  Padding(
+                    padding: EdgeInsets.only(left: 20.0, right: 20),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SmoothPageIndicator(
+                            controller: _pageController,
+                            count: imagePaths.length,
+                            effect: WormEffect(
+                              dotColor: const Color.fromARGB(
+                                255,
+                                231,
+                                228,
+                                232,
+                              ),
+                              activeDotColor: Colors.teal.shade200,
+                              dotHeight: 8,
+                              dotWidth: 8,
                             ),
-                            dotHeight: 9,
-                            dotWidth: 9,
                           ),
-                        ),
-                        const SizedBox(height: 20),
-                        Text(
-                          descriptions[_currentIndex],
-                          style: const TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w700,
+                          const SizedBox(height: 20),
+                          Text(
+                            descriptions[_currentIndex],
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.teal,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   Positioned(
