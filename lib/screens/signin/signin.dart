@@ -170,7 +170,7 @@ class _SignInState extends State<SignIn> {
                   child: const Text(
                     'Sign Up',
                     style: TextStyle(
-                      color: Colors.teal,
+                      color: Colors.teal, // ensure teal for sign up link
                       fontWeight: FontWeight.bold,
                     ),
                   ),

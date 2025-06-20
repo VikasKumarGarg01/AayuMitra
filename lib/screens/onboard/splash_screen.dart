@@ -134,7 +134,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     if (!_showIntro) {
       return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 237, 182, 227),
+        backgroundColor: Colors.white, // white splash background
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -144,7 +144,7 @@ class _SplashScreenState extends State<SplashScreen> {
               const Text(
                 'AayuMitra',
                 style: TextStyle(
-                  color: Color.fromARGB(255, 121, 0, 65),
+                  color: Colors.teal, // teal text
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 2,
@@ -153,7 +153,7 @@ class _SplashScreenState extends State<SplashScreen> {
               const Text(
                 'Designed by Vikas Kumar Garg',
                 style: TextStyle(
-                  color: Color.fromARGB(255, 0, 0, 0),
+                  color: Colors.teal,
                   fontSize: 5,
                   fontWeight: FontWeight.bold,
                   fontStyle: FontStyle.italic,

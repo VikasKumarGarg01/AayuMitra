@@ -13,8 +13,49 @@ class AayuMitraApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'AayuMitra',
-      theme: ThemeData(primarySwatch: Colors.teal),
-      home: const HomeScreen(),
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white, // Primary background as white
+        primaryColor: Colors.teal,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.teal,
+          iconTheme: IconThemeData(color: Colors.teal),
+          titleTextStyle: TextStyle(
+            color: Colors.teal,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.teal,
+            foregroundColor: Colors.white,
+            textStyle: const TextStyle(fontWeight: FontWeight.bold),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(foregroundColor: Colors.teal),
+        ),
+        checkboxTheme: CheckboxThemeData(
+          fillColor: MaterialStateProperty.all(Colors.teal),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.teal),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+        colorScheme: ColorScheme.light(
+          primary: Colors.teal,
+          secondary: Colors.teal,
+          background: Colors.white,
+        ),
+      ),
+      home: const SplashScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

@@ -133,7 +133,10 @@ class _ProfilesheetState extends State<ProfileSheet>
                           child: ListView(
                             children: [
                               ListTile(
-                                leading: const Icon(Icons.language),
+                                leading: const Icon(
+                                  Icons.language,
+                                  color: Colors.teal,
+                                ),
                                 title: const Text('Language'),
                                 onTap: () {
                                   Navigator.pop(context);
@@ -156,7 +159,10 @@ class _ProfilesheetState extends State<ProfileSheet>
                               //   onTap: () => _openSettings(context),
                               // ),
                               ListTile(
-                                leading: const Icon(Icons.person),
+                                leading: const Icon(
+                                  Icons.person,
+                                  color: Colors.teal,
+                                ),
                                 title: const Text('Account Settings'),
                                 // trailing: const Icon(Icons.arrow_forward_ios),
                                 onTap: () {
@@ -185,7 +191,10 @@ class _ProfilesheetState extends State<ProfileSheet>
                                 },
                               ),
                               ListTile(
-                                leading: const Icon(Icons.privacy_tip),
+                                leading: const Icon(
+                                  Icons.privacy_tip,
+                                  color: Colors.teal,
+                                ),
                                 title: const Text('Privacy Policy'),
                                 // trailing: const Icon(Icons.arrow_forward_ios),
                                 onTap: () {
@@ -194,7 +203,10 @@ class _ProfilesheetState extends State<ProfileSheet>
                                 },
                               ),
                               ListTile(
-                                leading: const Icon(Icons.contact_support),
+                                leading: const Icon(
+                                  Icons.contact_support,
+                                  color: Colors.teal,
+                                ),
                                 title: const Text('Contact Us'),
                                 onTap: () {
                                   Navigator.pop(context);
@@ -202,7 +214,10 @@ class _ProfilesheetState extends State<ProfileSheet>
                                 },
                               ),
                               ListTile(
-                                leading: const Icon(Icons.group),
+                                leading: const Icon(
+                                  Icons.group,
+                                  color: Colors.teal,
+                                ),
                                 title: const Text('Meet Our Team'),
                                 onTap: () {
                                   Navigator.pop(context);

@@ -2,8 +2,6 @@ import 'package:aayumitra/screens/onboard/splash_screen.dart';
 import 'package:flutter/material.dart';
 // import 'splash_screen.dart';
 
-
-
 class AccountSettingsPage extends StatelessWidget {
   const AccountSettingsPage({super.key});
 
@@ -108,27 +106,27 @@ class AccountSettingsPage extends StatelessWidget {
       body: ListView(
         children: [
           ListTile(
-            leading: const Icon(Icons.photo_camera),
+            leading: const Icon(Icons.photo_camera, color: Colors.teal),
             title: const Text('Edit Profile Picture'),
             onTap: () => _editProfilePic(context),
           ),
           ListTile(
-            leading: const Icon(Icons.edit),
+            leading: const Icon(Icons.edit, color: Colors.teal),
             title: const Text('Edit Name'),
             onTap: () => _editName(context),
           ),
           ListTile(
-            leading: const Icon(Icons.phone),
+            leading: const Icon(Icons.phone, color: Colors.teal),
             title: const Text('Edit Phone Number'),
             onTap: () => _editPhone(context),
           ),
           ListTile(
-            leading: const Icon(Icons.devices),
+            leading: const Icon(Icons.devices, color: Colors.teal),
             title: const Text('Add or Remove Devices'),
             onTap: () => _manageDevices(context),
           ),
           ListTile(
-            leading: const Icon(Icons.logout),
+            leading: const Icon(Icons.logout, color: Colors.teal),
             title: const Text('Logout'),
             onTap: () => _logout(context),
           ),

@@ -1,3 +1,4 @@
+import 'package:aayumitra/screens/homescreen/navbar/offer.dart';
 import 'package:flutter/material.dart';
 
 class CareDashboard extends StatelessWidget {
@@ -6,10 +7,10 @@ class CareDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final categories = [
-      {'title': 'Day Care', 'icon': Icons.child_care},
-      {'title': 'Professional Care', 'icon': Icons.medical_services},
-      {'title': 'Nursing Care', 'icon': Icons.health_and_safety},
-      {'title': 'Family Care', 'icon': Icons.family_restroom},
+      {'title': 'Medication Routine', 'icon': Icons.medication},
+      {'title': 'Sleep Routine', 'icon': Icons.bedtime},
+      {'title': 'Conversation History', 'icon': Icons.message},
+      {'title': 'Track Health', 'icon': Icons.health_and_safety},
     ];
 
     return SingleChildScrollView(
@@ -34,7 +35,17 @@ class CareDashboard extends StatelessWidget {
           const SizedBox(height: 24),
           const Text(
             'Care Categories',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 12),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              color: Colors.teal[50],
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: const OfferCarousel(),
           ),
           const SizedBox(height: 12),
           GridView.builder(
@@ -43,8 +54,8 @@ class CareDashboard extends StatelessWidget {
             itemCount: categories.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
+              mainAxisSpacing: 25,
+              crossAxisSpacing: 25,
               childAspectRatio: 1.1,
             ),
             itemBuilder: (context, index) {
@@ -52,7 +63,14 @@ class CareDashboard extends StatelessWidget {
               return Container(
                 decoration: BoxDecoration(
                   color: Colors.teal[50],
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(25),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
                 padding: const EdgeInsets.all(12),
                 child: Column(
@@ -63,7 +81,7 @@ class CareDashboard extends StatelessWidget {
                       size: 36,
                       color: Colors.teal,
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 15),
                     Text(
                       item['title'] as String,
                       style: const TextStyle(fontWeight: FontWeight.w500),
@@ -73,38 +91,7 @@ class CareDashboard extends StatelessWidget {
               );
             },
           ),
-          const SizedBox(height: 24),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.orange[100],
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              children: [
-                const Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "UPTO 20% OFF",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text("On Caregiving Services"),
-                      SizedBox(height: 8),
-                      ElevatedButton(onPressed: null, child: Text("Book Now")),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Icon(Icons.local_offer, size: 48, color: Colors.orange),
-              ],
-            ),
-          ),
+
           const SizedBox(height: 24),
         ],
       ),

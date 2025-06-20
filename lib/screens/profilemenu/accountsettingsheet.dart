@@ -62,7 +62,7 @@ class AccountSettingsSheet extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           ListTile(
-            leading: const Icon(Icons.person),
+            leading: const Icon(Icons.person, color: Colors.teal),
             title: const Text('Name'),
             subtitle: Text(name),
             trailing: IconButton(
@@ -71,7 +71,7 @@ class AccountSettingsSheet extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.email),
+            leading: const Icon(Icons.email, color: Colors.teal),
             title: const Text('Email'),
             subtitle: Text(email),
             trailing: IconButton(
@@ -80,7 +80,7 @@ class AccountSettingsSheet extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.home),
+            leading: const Icon(Icons.home, color: Colors.teal),
             title: const Text('Address'),
             subtitle: Text(address),
             trailing: IconButton(
@@ -89,7 +89,7 @@ class AccountSettingsSheet extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.phone),
+            leading: const Icon(Icons.phone, color: Colors.teal),
             title: const Text('Phone'),
             subtitle: Text(phone),
             trailing: IconButton(
@@ -98,7 +98,7 @@ class AccountSettingsSheet extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.lock_reset),
+            leading: const Icon(Icons.lock_reset, color: Colors.teal),
             title: const Text('Reset Password'),
             onTap: () {
               Navigator.pop(context);
@@ -106,7 +106,7 @@ class AccountSettingsSheet extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.devices),
+            leading: const Icon(Icons.devices, color: Colors.teal),
             title: const Text('Add/Remove Device'),
             onTap: () {
               Navigator.pop(context);
@@ -114,7 +114,7 @@ class AccountSettingsSheet extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.logout),
+            leading: const Icon(Icons.logout, color: Colors.teal),
             title: const Text('Logout'),
             onTap: () async {
               final shouldLogout = await showDialog<bool>(

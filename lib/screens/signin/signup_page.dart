@@ -156,6 +156,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   Checkbox(
                     value: _agreed,
                     onChanged: (v) => setState(() => _agreed = v ?? false),
+                    activeColor: Colors.teal, // teal checkbox
                   ),
                   Expanded(
                     child: GestureDetector(

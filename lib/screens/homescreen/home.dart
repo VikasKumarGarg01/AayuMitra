@@ -1,7 +1,8 @@
+import 'package:aayumitra/screens/homescreen/navbar/controls.dart';
 import 'package:aayumitra/screens/homescreen/notification.dart';
 import 'package:aayumitra/screens/usermodel/userdata.dart';
 import 'package:flutter/material.dart';
-import 'package:aayumitra/screens/homescreen/care.dart';
+import 'package:aayumitra/screens/homescreen/navbar/highlight.dart';
 // import 'package:aayumitra/screens/profilemenu/profile.dart';
 import 'package:aayumitra/screens/profilemenu/profilesheet.dart';
 
@@ -18,7 +19,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _screens = [
     const CareDashboard(),
-    const Center(child: Text('Controls', style: TextStyle(fontSize: 24))),
+    const Controlboard(),
+    // const Center(child: Text('Controls', style: TextStyle(fontSize: 24))),
     const Center(
       child: Text('Emergency Alerts', style: TextStyle(fontSize: 24)),
     ),
@@ -74,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: const ProfileSheet(),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -82,6 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  const SizedBox(width: 15), // Placeholder for drawer icon
                   GestureDetector(
                     onTap: () => _showProfileSheet(context),
                     child: const CircleAvatar(
