@@ -3,6 +3,7 @@ import 'package:aayumitra/screens/homescreen/notification.dart';
 import 'package:aayumitra/screens/usermodel/userdata.dart';
 import 'package:flutter/material.dart';
 import 'package:aayumitra/screens/homescreen/navbar/highlight.dart';
+import 'package:aayumitra/screens/homescreen/navbar/emergency.dart';
 // import 'package:aayumitra/screens/profilemenu/profile.dart';
 import 'package:aayumitra/screens/profilemenu/profilesheet.dart';
 
@@ -20,10 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _screens = [
     const CareDashboard(),
     const Controlboard(),
-    // const Center(child: Text('Controls', style: TextStyle(fontSize: 24))),
-    const Center(
-      child: Text('Emergency Alerts', style: TextStyle(fontSize: 24)),
-    ),
+    const EmergencyAlert(), // Emergency tab
   ];
 
   void _onItemTapped(int index) {
