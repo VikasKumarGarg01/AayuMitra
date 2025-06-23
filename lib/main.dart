@@ -1,10 +1,20 @@
 import 'package:aayumitra/redundant/devices/bluetooh.dart';
 import 'package:aayumitra/screens/homescreen/home.dart';
 import 'package:aayumitra/screens/homescreen/navbar/emergency.dart';
+import 'package:aayumitra/screens/signin/signin.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'screens/onboard/splash_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp()
+      .then((value) {
+        print("Firebase Initialized");
+      })
+      .catchError((error) {
+        print("Firebase Initialization Error: $error");
+      });
   runApp(const AayuMitraApp());
 }
 
@@ -57,7 +67,7 @@ class AayuMitraApp extends StatelessWidget {
           background: Colors.white,
         ),
       ),
-      home: const HomeScreen(),
+      home: const SignIn(),
       debugShowCheckedModeBanner: false,
     );
   }

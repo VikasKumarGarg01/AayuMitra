@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:aayumitra/screens/homescreen/home.dart';
 import 'package:aayumitra/screens/signin/forgetpassword.dart';
 import 'signup_page.dart';
-// import 'forgot_password_page.dart';
-// import 'home_screen.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -19,6 +19,34 @@ class _SignInState extends State<SignIn> {
 
   bool get _canSignIn =>
       _emailController.text.contains('@') && _passController.text.length >= 6;
+
+  Future<void> _signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) return; // User cancelled
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+      // Navigate to home on success
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => const HomeScreen()),
+        (route) => false,
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Google sign-in failed: $e')));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +166,7 @@ class _SignInState extends State<SignIn> {
                 _SocialCircleButton(
                   icon: Icons.g_mobiledata,
                   color: Colors.red,
-                  onTap: () {},
+                  onTap: _signInWithGoogle,
                 ),
                 const SizedBox(width: 16),
                 _SocialCircleButton(

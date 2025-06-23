@@ -2,6 +2,9 @@ import 'package:aayumitra/screens/homescreen/home.dart';
 import 'package:aayumitra/screens/signin/userselection/user_role_page.dart';
 import 'package:flutter/material.dart';
 import 'signin.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 // import 'package:aayumitra/home/home_screen.dart';
 
 // import 'userselection\user_role_page.dart';
@@ -28,6 +31,34 @@ class _SignUpPageState extends State<SignUpPage> {
       _formKey.currentState?.validate() == true &&
       _agreed &&
       _passwordController.text == _rePasswordController.text;
+
+  Future<void> _signUpWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) return; // User cancelled
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+      // Navigate to user role selection on success
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => const UserRolePage()),
+        (route) => false,
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Google sign-in failed: $e')));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +235,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   _SocialCircleButton(
                     icon: Icons.g_mobiledata,
                     color: Colors.red,
-                    onTap: () {},
+                    onTap: _signUpWithGoogle,
                   ),
                   const SizedBox(width: 20),
                   _SocialCircleButton(

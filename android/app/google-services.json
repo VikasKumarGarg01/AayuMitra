@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "940260433755",
+    "project_id": "aayumitra-f4141",
+    "storage_bucket": "aayumitra-f4141.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940260433755:android:ba0e589209fd0899cd847e",
+        "android_client_info": {
+          "package_name": "com.example.aayumitra"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFtOdFLrs4FzcnfNUIUxkQiMYj-2NdOLU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
