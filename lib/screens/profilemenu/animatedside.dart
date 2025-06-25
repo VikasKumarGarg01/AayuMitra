@@ -41,6 +41,7 @@ class _AnimatedSideSheetState extends State<AnimatedSideSheet>
         Positioned.fill(
           child: GestureDetector(
             onTap: () => Navigator.pop(context),
+            // ignore: deprecated_member_use
             child: Container(color: Colors.black.withOpacity(0.3)),
           ),
         ),

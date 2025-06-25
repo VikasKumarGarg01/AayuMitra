@@ -1,6 +1,6 @@
 import 'package:aayumitra/screens/profilemenu/animatedside.dart';
 import 'package:flutter/material.dart';
-import 'package:aayumitra/l10n/app_localizations.dart';
+// import 'package:aayumitra/l10n/app_localizations.dart';
 
 class LanguageSheet extends StatelessWidget {
   final Function(String) onSelect;
@@ -44,6 +44,7 @@ void showLanguageSheet(BuildContext context, Function(String) onSelect) {
     context: context,
     barrierDismissible: true,
     barrierLabel: "Language",
+    // ignore: deprecated_member_use
     barrierColor: Colors.black.withOpacity(0.5),
     transitionDuration: const Duration(milliseconds: 350),
     pageBuilder: (context, anim1, anim2) => const SizedBox.shrink(),

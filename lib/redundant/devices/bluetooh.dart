@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class DeviceConnectScreen extends StatelessWidget {
-  const DeviceConnectScreen({Key? key}) : super(key: key);
+  const DeviceConnectScreen({super.key});
 
   void _showDeviceIdDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) {
+        // ignore: unused_local_variable
         String inputId = '';
         return AlertDialog(
           title: const Text('Enter Device ID'),

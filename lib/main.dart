@@ -1,25 +1,27 @@
-import 'package:aayumitra/redundant/devices/bluetooh.dart';
-import 'package:aayumitra/screens/homescreen/home.dart';
-import 'package:aayumitra/screens/homescreen/navbar/emergency.dart';
+// import 'package:aayumitra/redundant/devices/bluetooh.dart';
+// import 'package:aayumitra/screens/homescreen/home.dart';
+// import 'package:aayumitra/screens/homescreen/navbar/emergency.dart';
 import 'package:aayumitra/screens/signin/signin.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'screens/onboard/splash_screen.dart';
+// import 'screens/onboard/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp()
       .then((value) {
+        // ignore: avoid_print
         print("Firebase Initialized");
       })
       .catchError((error) {
+        // ignore: avoid_print
         print("Firebase Initialization Error: $error");
       });
   runApp(const AayuMitraApp());
 }
 
 class AayuMitraApp extends StatelessWidget {
-  const AayuMitraApp({Key? key}) : super(key: key);
+  const AayuMitraApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,7 @@ class AayuMitraApp extends StatelessWidget {
           style: TextButton.styleFrom(foregroundColor: Colors.teal),
         ),
         checkboxTheme: CheckboxThemeData(
-          fillColor: MaterialStateProperty.all(Colors.teal),
+          fillColor: WidgetStateProperty.all(Colors.teal),
         ),
         inputDecorationTheme: InputDecorationTheme(
           focusedBorder: OutlineInputBorder(
@@ -64,7 +66,7 @@ class AayuMitraApp extends StatelessWidget {
         colorScheme: ColorScheme.light(
           primary: Colors.teal,
           secondary: Colors.teal,
-          background: Colors.white,
+          surface: Colors.white,
         ),
       ),
       home: const SignIn(),

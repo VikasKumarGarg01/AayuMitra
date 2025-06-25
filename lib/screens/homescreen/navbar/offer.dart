@@ -111,6 +111,7 @@ class _OfferCarouselState extends State<OfferCarousel> {
                     ),
                   );
                 },
+                // ignore: sort_child_properties_last
                 child: const Text("Book Now"),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.teal, // use teal

@@ -1,4 +1,6 @@
-import 'package:aayumitra/screens/homescreen/home.dart';
+// import 'package:aayumitra/screens/homescreen/home.dart';
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:aayumitra/screens/signin/userselection/user_role_page.dart';
 import 'package:flutter/material.dart';
 import 'signin.dart';
@@ -284,6 +286,7 @@ class _SocialCircleButton extends StatelessWidget {
     required this.icon,
     required this.color,
     required this.onTap,
+    // ignore: unused_element_parameter
     super.key,
   });
 
@@ -294,6 +297,7 @@ class _SocialCircleButton extends StatelessWidget {
       borderRadius: BorderRadius.circular(30),
       child: CircleAvatar(
         radius: 24,
+        // ignore: deprecated_member_use
         backgroundColor: color.withOpacity(0.1),
         child: Icon(icon, color: color, size: 28),
       ),

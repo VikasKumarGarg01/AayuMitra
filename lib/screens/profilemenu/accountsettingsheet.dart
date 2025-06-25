@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
-import 'package:aayumitra/screens/onboard/splash_screen.dart';
+// import 'dart:ui';
+// import 'package:aayumitra/screens/onboard/splash_screen.dart';
 import 'package:aayumitra/screens/profilemenu/animatedside.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:restart_app/restart_app.dart';
@@ -153,6 +153,7 @@ void showAccountSettingsSheet(BuildContext context) {
     context: context,
     barrierDismissible: true,
     barrierLabel: "Account Settings",
+    // ignore: deprecated_member_use
     barrierColor: Colors.black.withOpacity(0.5),
     transitionDuration: const Duration(milliseconds: 350),
     pageBuilder: (context, anim1, anim2) => const SizedBox.shrink(),

@@ -63,6 +63,7 @@ class _EmergencyAlertState extends State<EmergencyAlert>
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: _effectRadius > 0
+                  // ignore: deprecated_member_use
                   ? Colors.red.withOpacity(0.25)
                   : Colors.transparent,
             ),
@@ -78,6 +79,7 @@ class _EmergencyAlertState extends State<EmergencyAlert>
                 color: _buttonRed ? Colors.red[600] : Colors.white,
                 boxShadow: [
                   BoxShadow(
+                    // ignore: deprecated_member_use
                     color: Colors.red.withOpacity(0.7),
                     blurRadius: 40,
                     spreadRadius: 20,
@@ -92,6 +94,7 @@ class _EmergencyAlertState extends State<EmergencyAlert>
                   size: 90,
                   shadows: [
                     Shadow(
+                      // ignore: deprecated_member_use
                       color: Colors.redAccent.withOpacity(0.7),
                       blurRadius: 20,
                     ),

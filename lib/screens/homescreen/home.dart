@@ -9,7 +9,7 @@ import 'package:aayumitra/screens/homescreen/navbar/highlight.dart';
 import 'package:aayumitra/screens/profilemenu/profilesheet.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

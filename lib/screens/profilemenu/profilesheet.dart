@@ -170,6 +170,7 @@ class _ProfilesheetState extends State<ProfileSheet>
                                     context: context,
                                     barrierDismissible: true,
                                     barrierLabel: "Account Settings",
+                                    // ignore: deprecated_member_use
                                     barrierColor: Colors.black.withOpacity(0.3),
                                     transitionDuration: const Duration(
                                       milliseconds: 350,

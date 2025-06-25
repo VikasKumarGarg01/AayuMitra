@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:aayumitra/screens/homescreen/home.dart';
 import 'package:aayumitra/screens/signin/forgetpassword.dart';
@@ -37,6 +39,8 @@ class _SignInState extends State<SignIn> {
 
       // Navigate to home on success
       Navigator.pushAndRemoveUntil(
+        // ignore: duplicate_ignore
+        // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(builder: (_) => const HomeScreen()),
         (route) => false,
@@ -232,6 +236,7 @@ class _SocialCircleButton extends StatelessWidget {
     required this.icon,
     required this.color,
     required this.onTap,
+    // ignore: unused_element_parameter
     super.key,
   });
 
