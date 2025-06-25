@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:aayumitra/screens/profilemenu/accountsettings.dart';
 import 'package:aayumitra/screens/profilemenu/accountsettingsheet.dart';
 import 'package:aayumitra/screens/profilemenu/contactus.dart';
 import 'package:aayumitra/screens/profilemenu/language.dart';

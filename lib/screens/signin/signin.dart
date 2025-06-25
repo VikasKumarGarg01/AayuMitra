@@ -48,6 +48,24 @@ class _SignInState extends State<SignIn> {
     }
   }
 
+  Future<void> _signInWithEmailPassword() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passController.text,
+      );
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => const HomeScreen()),
+        (route) => false,
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Sign-in failed: $e')));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,15 +164,7 @@ class _SignInState extends State<SignIn> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: _canSignIn
-                    ? () {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (_) => const HomeScreen()),
-                          (route) => false,
-                        );
-                      }
-                    : null,
+                onPressed: _canSignIn ? _signInWithEmailPassword : null,
                 child: const Text('Sign In'),
               ),
             ),

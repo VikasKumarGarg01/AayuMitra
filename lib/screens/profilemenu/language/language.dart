@@ -1,0 +1,61 @@
+import 'package:aayumitra/screens/profilemenu/animatedside.dart';
+import 'package:flutter/material.dart';
+import 'package:aayumitra/l10n/app_localizations.dart';
+
+class LanguageSheet extends StatelessWidget {
+  final Function(String) onSelect;
+  const LanguageSheet({super.key, required this.onSelect});
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSideSheet(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Text(
+          //   AppLocalizations.of(context)!.selectLanguage,
+          //   style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          // ),
+          const SizedBox(height: 24),
+          ListTile(
+            leading: const Icon(Icons.language),
+            title: const Text('English'),
+            onTap: () {
+              onSelect('en');
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.language),
+            title: const Text('हिन्दी'),
+            onTap: () {
+              onSelect('hi');
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+void showLanguageSheet(BuildContext context, Function(String) onSelect) {
+  showGeneralDialog(
+    context: context,
+    barrierDismissible: true,
+    barrierLabel: "Language",
+    barrierColor: Colors.black.withOpacity(0.5),
+    transitionDuration: const Duration(milliseconds: 350),
+    pageBuilder: (context, anim1, anim2) => const SizedBox.shrink(),
+    transitionBuilder: (context, anim1, anim2, child) {
+      return LanguageSheet(onSelect: onSelect);
+    },
+  );
+}
+
+// Example usage in any widget:
+// showLanguageSheet(context, (langCode) {
+//   final locale = Locale(langCode);
+//   // Find the nearest _AayuMitraAppState and call setLocale
+//   (context.findAncestorStateOfType<_AayuMitraAppState>())?.setLocale(locale);
+// });

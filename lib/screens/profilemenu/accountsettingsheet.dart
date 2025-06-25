@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:aayumitra/screens/onboard/splash_screen.dart';
 import 'package:aayumitra/screens/profilemenu/animatedside.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:restart_app/restart_app.dart';
 
 class AccountSettingsSheet extends StatelessWidget {
   final String name;
@@ -135,11 +137,8 @@ class AccountSettingsSheet extends StatelessWidget {
                 ),
               );
               if (shouldLogout == true) {
-                // Restart the app (using restart_app package or similar)
-                // import 'package:restart_app/restart_app.dart';
-                // Restart.restartApp();
-                // Or, if you want to just pop to the root:
-                Navigator.of(context).popUntil((route) => route.isFirst);
+                await FirebaseAuth.instance.signOut();
+                Restart.restartApp();
               }
             },
           ),
