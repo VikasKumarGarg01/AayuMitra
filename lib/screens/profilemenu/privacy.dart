@@ -1,4 +1,5 @@
 import 'package:aayumitra/screens/profilemenu/animatedside.dart';
+import 'package:aayumitra/screens/profilemenu/pp.dart';
 import 'package:flutter/material.dart';
 // import 'animated_side_sheet.dart';
 
@@ -8,12 +9,9 @@ class PrivacyPolicySheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSideSheet(
-      child: const Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Text(
-          'Your privacy policy content goes here. Explain how user data is handled, stored, and protected.',
-          style: TextStyle(fontSize: 16),
-        ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: PrivacyPolicyBody(),
       ),
     );
   }
