@@ -1,6 +1,8 @@
 // import 'package:aayumitra/redundant/devices/bluetooh.dart';
 // import 'package:aayumitra/screens/homescreen/home.dart';
 // import 'package:aayumitra/screens/homescreen/navbar/emergency.dart';
+import 'package:aayumitra/screens/homescreen/home.dart';
+import 'package:aayumitra/screens/onboard/splash_screen.dart';
 import 'package:aayumitra/screens/signin/signin.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +71,7 @@ class AayuMitraApp extends StatelessWidget {
           surface: Colors.white,
         ),
       ),
-      home: const SignIn(),
+      home: const HomeScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

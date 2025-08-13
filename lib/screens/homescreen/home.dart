@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _screens = [
     const CareDashboard(),
     const Controlboard(),
-    const EmergencyAlert(), // Emergency tab
+    // const EmergencyAlert(), // Emergency tab
   ];
 
   void _onItemTapped(int index) {
@@ -132,9 +132,9 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedItemColor: Colors.teal,
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
-        items: List.generate(3, (i) {
+        items: List.generate(2, (i) {
           final icons = [Icons.star, Icons.settings_remote, Icons.warning];
-          final labels = ['Highlights', 'Controls', 'Alerts'];
+          final labels = ['Highlights', 'Controls'];
           final isSelected = _selectedIndex == i;
           return BottomNavigationBarItem(
             icon: AnimatedContainer(
