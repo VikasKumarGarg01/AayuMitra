@@ -45,7 +45,7 @@ class _TrackHealthPageState extends State<TrackHealthPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Track Health'),
-        backgroundColor: Colors.teal,
+        // backgroundColor: Colors.teal,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -181,6 +181,7 @@ class HealthRecordCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
+      color: const Color.fromARGB(253, 226, 246, 244),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16.0),

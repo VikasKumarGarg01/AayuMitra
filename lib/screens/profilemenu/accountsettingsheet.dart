@@ -1,3 +1,4 @@
+import 'package:aayumitra/redundant/devices/bluetooh.dart';
 import 'package:flutter/material.dart';
 // import 'dart:ui';
 // import 'package:aayumitra/screens/onboard/splash_screen.dart';
@@ -111,8 +112,10 @@ class AccountSettingsSheet extends StatelessWidget {
             leading: const Icon(Icons.devices, color: Colors.teal),
             title: const Text('Add/Remove Device'),
             onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, '/bluetooth');
+              // Navigator.pop(context);
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => DeviceConnectScreen()),
+              );
             },
           ),
           ListTile(

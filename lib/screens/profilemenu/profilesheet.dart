@@ -19,10 +19,10 @@ class _ProfilesheetState extends State<ProfileSheet>
   late AnimationController _controller;
   late Animation<Offset> _slideAnimation;
 
-  String _name = 'Robert Smith';
-  String _email = 'Robert@gmail.com';
-  String _address = 'Mumbai 400050';
-  String _phone = '222-444-1111';
+  String _name = 'Diyaa Singla';
+  String _email = 'diya134singla@gmail.com';
+  String _address = 'Bathinda 151509';
+  String _phone = '94632 58181';
 
   void _updateProfileField(String field, String value) {
     setState(() {
@@ -63,7 +63,7 @@ class _ProfilesheetState extends State<ProfileSheet>
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Container(
-              color: const Color.fromARGB(97, 255, 255, 255),
+              color: const Color.fromARGB(96, 237, 248, 250),
               width: double.infinity,
               height: double.infinity,
             ),
@@ -94,9 +94,9 @@ class _ProfilesheetState extends State<ProfileSheet>
                       children: [
                         const Center(
                           child: CircleAvatar(
-                            radius: 48,
+                            radius: 100,
                             backgroundImage: AssetImage(
-                              'assets/images/profile.png',
+                              'assets/images/profile1.png',
                             ),
                           ),
                         ),
@@ -105,7 +105,7 @@ class _ProfilesheetState extends State<ProfileSheet>
                           child: Column(
                             children: [
                               Text(
-                                'Robert Smith',
+                                'Diyaa SIngla',
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -113,15 +113,15 @@ class _ProfilesheetState extends State<ProfileSheet>
                               ),
                               SizedBox(height: 4),
                               Text(
-                                'Robert@gmail.com',
+                                'Diyaa134@gmail.com',
                                 style: TextStyle(color: Colors.grey),
                               ),
                               Text(
-                                'Mumbai 400050',
+                                'Bathinda 151509',
                                 style: TextStyle(color: Colors.grey),
                               ),
                               Text(
-                                '222-444-1111',
+                                '+91 94632 58181',
                                 style: TextStyle(color: Colors.grey),
                               ),
                             ],

@@ -20,7 +20,7 @@ class SleepRoutinePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sleep Routine'),
-        backgroundColor: Colors.teal,
+        // backgroundColor: Colors.teal,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -50,7 +50,9 @@ class SleepRoutinePage extends StatelessWidget {
                         height: entry.value * 20.0, // Scale bar height
                         width: 30,
                         decoration: BoxDecoration(
-                          color: entry.value >= 7 ? Colors.green : Colors.red,
+                          color: entry.value >= 7
+                              ? Colors.teal[400]
+                              : Colors.teal[100],
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
@@ -73,6 +75,7 @@ class SleepRoutinePage extends StatelessWidget {
             // Sleep Insights Section
             Card(
               elevation: 4,
+              color: const Color.fromARGB(253, 226, 246, 244),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -106,6 +109,7 @@ class SleepRoutinePage extends StatelessWidget {
             // Sleep Tips Section
             Card(
               elevation: 4,
+              color: const Color.fromARGB(253, 226, 246, 244),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -146,7 +150,12 @@ class SleepRoutinePage extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const EditSleepRoutinePage(),
+              builder: (context) => EditSleepRoutinePage(
+                onSave: (newSleepData) {
+                  // Handle the saved sleep data here
+                  // For example, update the state or show a message
+                },
+              ),
             ),
           );
         },

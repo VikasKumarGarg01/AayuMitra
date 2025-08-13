@@ -1,4 +1,5 @@
 // import 'package:aayumitra/screens/homescreen/navbar/offer.dart';
+import 'package:aayumitra/screens/conversation/conversation.dart';
 import 'package:aayumitra/screens/health/track_health.dart';
 import 'package:aayumitra/screens/medicationroutine/medication.dart';
 import 'package:aayumitra/screens/sleepRoutine/sleep.dart'; // Import SleepRoutinePage
@@ -39,9 +40,13 @@ class CareDashboard extends StatelessWidget {
           //   ),
           // ),
           // const SizedBox(height: 24),
-          const Text(
+          Text(
             'Care Categories',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              fontSize: 26,
+              fontWeight: FontWeight.w700,
+              color: Colors.grey[800],
+            ),
           ),
           const SizedBox(height: 12),
           // Container(
@@ -88,6 +93,13 @@ class CareDashboard extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => const TrackHealthPage(),
+                      ),
+                    );
+                  } else if (item['title'] == 'Conversation History') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ConversationPage(),
                       ),
                     );
                   }

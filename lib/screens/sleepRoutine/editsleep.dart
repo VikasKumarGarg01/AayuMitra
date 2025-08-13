@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class EditSleepRoutinePage extends StatefulWidget {
-  const EditSleepRoutinePage({super.key});
+  final Function(Map<String, dynamic>) onSave;
+
+  const EditSleepRoutinePage({required this.onSave, super.key});
 
   @override
   State<EditSleepRoutinePage> createState() => _EditSleepRoutinePageState();
@@ -14,12 +16,42 @@ class _EditSleepRoutinePageState extends State<EditSleepRoutinePage> {
   String _sleepStatus = "Unknown";
 
   void _pickTime(BuildContext context, bool isBedtime) async {
-    final pickedTime = await showTimePicker(
+    final pickedTime = await showDialog<TimeOfDay>(
       context: context,
-      initialTime: isBedtime
-          ? const TimeOfDay(hour: 22, minute: 0)
-          : const TimeOfDay(hour: 6, minute: 0),
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            height: 500, // Adjust height to fit the analog clock
+            child: Column(
+              // mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Select Time',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 5),
+                Expanded(
+                  child: TimePickerDialog(
+                    cancelText: 'Cancel',
+                    switchToInputEntryModeIcon: const Icon(Icons.keyboard),
+                    initialTime: isBedtime
+                        ? const TimeOfDay(hour: 22, minute: 0)
+                        : const TimeOfDay(hour: 6, minute: 0),
+                    initialEntryMode:
+                        TimePickerEntryMode.dial, // Use analog clock
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
+
     if (pickedTime != null) {
       setState(() {
         if (isBedtime) {
@@ -112,44 +144,74 @@ class _EditSleepRoutinePageState extends State<EditSleepRoutinePage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Set Your Sleep Routine',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            // Bedtime Picker
-            ListTile(
-              leading: const Icon(Icons.bedtime, color: Colors.teal),
-              title: Text(
-                _bedtime == null
-                    ? 'Select Bedtime'
-                    : 'Bedtime: ${_bedtime!.format(context)}',
+            Expanded(
+              flex: 2,
+              child: ListView(
+                children: [
+                  const Text(
+                    'Set Your Sleep Routine',
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 16),
+                  // Bedtime Picker
+                  Container(
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(253, 226, 246, 244),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.grey.shade300),
+                    ),
+                    child: ListTile(
+                      leading: const Icon(Icons.bedtime, color: Colors.teal),
+                      title: Text(
+                        _bedtime == null
+                            ? 'Select Bedtime'
+                            : 'Bedtime: ${_bedtime!.format(context)}',
+                      ),
+                      onTap: () => _pickTime(context, true),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  // Wake-up Time Picker
+                  Container(
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(253, 226, 246, 244),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.grey.shade300),
+                    ),
+                    child: ListTile(
+                      leading: const Icon(Icons.wb_sunny, color: Colors.teal),
+                      title: Text(
+                        _wakeUpTime == null
+                            ? 'Select Wake-up Time'
+                            : 'Wake-up Time: ${_wakeUpTime!.format(context)}',
+                      ),
+                      onTap: () => _pickTime(context, false),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  // Afternoon Nap Picker
+                  Container(
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(253, 226, 246, 244),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.grey.shade300),
+                    ),
+                    child: ListTile(
+                      leading: const Icon(
+                        Icons.nightlight_round,
+                        color: Colors.teal,
+                      ),
+                      title: Text(
+                        _afternoonNapDuration == null
+                            ? 'Add Afternoon Nap'
+                            : 'Afternoon Nap: ${_afternoonNapDuration!.inMinutes} minutes',
+                      ),
+                      onTap: () => _pickNapDuration(context),
+                    ),
+                  ),
+                ],
               ),
-              onTap: () => _pickTime(context, true),
-            ),
-            const SizedBox(height: 16),
-            // Wake-up Time Picker
-            ListTile(
-              leading: const Icon(Icons.wb_sunny, color: Colors.teal),
-              title: Text(
-                _wakeUpTime == null
-                    ? 'Select Wake-up Time'
-                    : 'Wake-up Time: ${_wakeUpTime!.format(context)}',
-              ),
-              onTap: () => _pickTime(context, false),
-            ),
-            const SizedBox(height: 16),
-            // Afternoon Nap Picker
-            ListTile(
-              leading: const Icon(Icons.nightlight_round, color: Colors.teal),
-              title: Text(
-                _afternoonNapDuration == null
-                    ? 'Add Afternoon Nap'
-                    : 'Afternoon Nap: ${_afternoonNapDuration!.inMinutes} minutes',
-              ),
-              onTap: () => _pickNapDuration(context),
             ),
             const SizedBox(height: 24),
             // Sleep Status
@@ -161,7 +223,7 @@ class _EditSleepRoutinePageState extends State<EditSleepRoutinePage> {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Text(
                       'Sleep Status',
@@ -191,8 +253,19 @@ class _EditSleepRoutinePageState extends State<EditSleepRoutinePage> {
             // Save Button
             ElevatedButton(
               onPressed: () {
-                // Save the sleep routine
-                Navigator.pop(context);
+                if (_bedtime != null && _wakeUpTime != null) {
+                  final newRoutine = {
+                    'date': DateTime.now().toString().split(' ')[0],
+                    'bedtime': _bedtime!.format(context),
+                    'wakeUpTime': _wakeUpTime!.format(context),
+                    'napDuration': _afternoonNapDuration != null
+                        ? '${_afternoonNapDuration!.inMinutes} minutes'
+                        : 'No Nap',
+                    'sleepStatus': _sleepStatus,
+                  };
+                  widget.onSave(newRoutine); // Pass the new routine back
+                  Navigator.pop(context); // Go back to the main page
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.teal,
@@ -208,64 +281,3 @@ class _EditSleepRoutinePageState extends State<EditSleepRoutinePage> {
     );
   }
 }
-// class EditSleepRoutinePage extends StatelessWidget {
-//   const EditSleepRoutinePage({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Edit Sleep Routine'),
-//         backgroundColor: Colors.teal,
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             const Text(
-//               'Set Your Sleep Routine',
-//               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-//             ),
-//             const SizedBox(height: 16),
-//             TextField(
-//               decoration: const InputDecoration(
-//                 labelText: 'Bedtime',
-//                 border: OutlineInputBorder(),
-//                 prefixIcon: Icon(Icons.bedtime),
-//               ),
-//               onTap: () {
-//                 // Show time picker for bedtime
-//               },
-//             ),
-//             const SizedBox(height: 16),
-//             TextField(
-//               decoration: const InputDecoration(
-//                 labelText: 'Wake-up Time',
-//                 border: OutlineInputBorder(),
-//                 prefixIcon: Icon(Icons.wb_sunny),
-//               ),
-//               onTap: () {
-//                 // Show time picker for wake-up time
-//               },
-//             ),
-//             const SizedBox(height: 16),
-//             ElevatedButton(
-//               onPressed: () {
-//                 // Save the sleep routine
-//                 Navigator.pop(context);
-//               },
-//               style: ElevatedButton.styleFrom(
-//                 backgroundColor: Colors.teal,
-//                 shape: RoundedRectangleBorder(
-//                   borderRadius: BorderRadius.circular(12),
-//                 ),
-//               ),
-//               child: const Text('Save Routine'),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

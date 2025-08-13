@@ -87,8 +87,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   GestureDetector(
                     onTap: () => _showProfileSheet(context),
                     child: const CircleAvatar(
-                      radius: 50,
-                      backgroundImage: AssetImage('assets/images/profile.png'),
+                      radius: 75,
+                      backgroundImage: AssetImage('assets/images/profile1.png'),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -97,25 +97,30 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Hi Robert 👋,',
+                          'Hi Diyaa 👋,',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 20,
                             fontWeight: FontWeight.w500,
                             color: Color.fromARGB(137, 206, 44, 44),
                           ),
                         ),
                         Text(
                           _getGreeting(),
-                          style: const TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
+                          style: TextStyle(
+                            fontSize: 28,
+                            color: const Color.fromARGB(255, 115, 133, 135),
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.notifications, size: 32),
+                    icon: const Icon(
+                      Icons.notifications,
+                      color: Colors.teal,
+                      size: 32,
+                    ),
                     onPressed: () => _openNotifications(context),
                   ),
                 ],

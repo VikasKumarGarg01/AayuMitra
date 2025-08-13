@@ -1,203 +1,146 @@
 import 'package:flutter/material.dart';
 
 class NewRoutinePage extends StatefulWidget {
-  const NewRoutinePage({super.key});
+  final Function(Map<String, dynamic>) onSave;
+
+  const NewRoutinePage({required this.onSave, super.key});
 
   @override
   State<NewRoutinePage> createState() => _NewRoutinePageState();
 }
 
 class _NewRoutinePageState extends State<NewRoutinePage> {
-  final _nameController = TextEditingController();
-  final _dosageController = TextEditingController();
-  final _descriptionController = TextEditingController();
-  String? _selectedMedia;
-  String? _selectedPriority;
-  TimeOfDay? _selectedTime;
-  final List<String> _repeatDays = [];
-  final List<String> _mediaOptions = ['Tablet', 'Syrup', 'Injection'];
-  final List<String> _priorityOptions = ['High', 'Medium', 'Low'];
+  final nameController = TextEditingController();
+  final amountController = TextEditingController();
+  String selectedCategory = 'Pill';
+  List<String> selectedTimeSlots = [];
+  List<String> selectedRepeatDays = [];
 
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _dosageController.dispose();
-    _descriptionController.dispose();
-    super.dispose();
-  }
-
-  void _pickTime() async {
-    final pickedTime = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
-    if (pickedTime != null) {
-      setState(() {
-        _selectedTime = pickedTime;
-      });
-    }
-  }
-
-  void _toggleRepeatDay(String day) {
-    setState(() {
-      if (_repeatDays.contains(day)) {
-        _repeatDays.remove(day);
-      } else {
-        _repeatDays.add(day);
-      }
-    });
-  }
+  final List<String> categories = ['Pill', 'Syrup'];
+  final List<String> timeSlots = ['Morning', 'Afternoon', 'Evening', 'Night'];
+  final List<String> repeatDays = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
+    'Daily',
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('New Medication Routine')),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      appBar: AppBar(title: const Text('Add Medication')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
           children: [
-            // Medication Name
             TextField(
-              controller: _nameController,
+              controller: nameController,
               decoration: const InputDecoration(
                 labelText: 'Medication Name',
                 border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16),
-
-            // Dosage
-            TextField(
-              controller: _dosageController,
-              decoration: const InputDecoration(
-                labelText: 'Dosage',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            // Media (Dropdown)
             DropdownButtonFormField<String>(
-              value: _selectedMedia,
-              items: _mediaOptions
+              value: selectedCategory,
+              items: categories
                   .map(
-                    (media) =>
-                        DropdownMenuItem(value: media, child: Text(media)),
-                  )
-                  .toList(),
-              onChanged: (value) {
-                setState(() {
-                  _selectedMedia = value;
-                });
-              },
-              decoration: const InputDecoration(
-                labelText: 'Type',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            // Priority (Dropdown)
-            DropdownButtonFormField<String>(
-              value: _selectedPriority,
-              items: _priorityOptions
-                  .map(
-                    (priority) => DropdownMenuItem(
-                      value: priority,
-                      child: Text(priority),
+                    (category) => DropdownMenuItem(
+                      value: category,
+                      child: Text(category),
                     ),
                   )
                   .toList(),
               onChanged: (value) {
                 setState(() {
-                  _selectedPriority = value;
+                  selectedCategory = value!;
+                  amountController
+                      .clear(); // Clear amount when category changes
                 });
               },
               decoration: const InputDecoration(
-                labelText: 'Priority',
+                labelText: 'Category',
                 border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16),
-
-            // Timer (Time Picker)
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    _selectedTime == null
-                        ? 'No Time Selected'
-                        : 'Time: ${_selectedTime!.format(context)}',
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: _pickTime,
-                  child: const Text('Pick Time'),
-                ),
-              ],
+            TextField(
+              controller: amountController,
+              decoration: InputDecoration(
+                labelText: selectedCategory == 'Syrup'
+                    ? 'Amount (tablespoons)'
+                    : 'Amount (pills)',
+                border: const OutlineInputBorder(),
+              ),
+              keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 16),
-
-            // Repeat Days
             const Text(
-              'Repeat Days',
+              'Select Time Slots',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Wrap(
               spacing: 8,
-              children: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                  .map(
-                    (day) => ChoiceChip(
-                      label: Text(day),
-                      selected: _repeatDays.contains(day),
-                      onSelected: (_) => _toggleRepeatDay(day),
-                    ),
-                  )
-                  .toList(),
+              children: timeSlots.map((slot) {
+                return FilterChip(
+                  label: Text(slot),
+                  selected: selectedTimeSlots.contains(slot),
+                  onSelected: (isSelected) {
+                    setState(() {
+                      if (isSelected) {
+                        selectedTimeSlots.add(slot);
+                      } else {
+                        selectedTimeSlots.remove(slot);
+                      }
+                    });
+                  },
+                );
+              }).toList(),
             ),
             const SizedBox(height: 16),
-
-            // Description
-            TextField(
-              controller: _descriptionController,
-              maxLines: 3,
-              decoration: const InputDecoration(
-                labelText: 'Description',
-                border: OutlineInputBorder(),
-              ),
+            const Text(
+              'Select Repeat Days',
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 16),
-
-            // Save Button
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  if (_nameController.text.isEmpty ||
-                      _dosageController.text.isEmpty ||
-                      _selectedMedia == null ||
-                      _selectedPriority == null ||
-                      _selectedTime == null ||
-                      _repeatDays.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Please fill in all fields'),
-                      ),
-                    );
-                    return;
-                  }
-
-                  Navigator.pop(context, {
-                    'name': _nameController.text,
-                    'time': _selectedTime!.format(context),
-                    'repeatDays': _repeatDays,
-                    'media': _selectedMedia,
-                    'priority': _selectedPriority,
-                    'description': _descriptionController.text,
-                  });
-                },
-                child: const Text('Save Routine'),
-              ),
+            Wrap(
+              spacing: 8,
+              children: repeatDays.map((day) {
+                return FilterChip(
+                  label: Text(day),
+                  selected: selectedRepeatDays.contains(day),
+                  onSelected: (isSelected) {
+                    setState(() {
+                      if (isSelected) {
+                        selectedRepeatDays.add(day);
+                      } else {
+                        selectedRepeatDays.remove(day);
+                      }
+                    });
+                  },
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: () {
+                final newMedication = {
+                  'name': nameController.text,
+                  'category': selectedCategory,
+                  'amount': selectedCategory == 'Syrup'
+                      ? '${amountController.text} tablespoons'
+                      : '${amountController.text} pills',
+                  'timeSlots': selectedTimeSlots,
+                  'repeatDays': selectedRepeatDays,
+                  'date': DateTime.now().toString().split(' ')[0],
+                };
+                widget.onSave(newMedication); // Pass the new medication back
+                Navigator.pop(context); // Go back to the previous page
+              },
+              child: const Text('Save Medication'),
             ),
           ],
         ),
