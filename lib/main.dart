@@ -71,7 +71,7 @@ class AayuMitraApp extends StatelessWidget {
           surface: Colors.white,
         ),
       ),
-      home: const HomeScreen(),
+      home: const SplashScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

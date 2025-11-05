@@ -6,6 +6,7 @@ import 'package:aayumitra/screens/signin/forgetpassword.dart';
 import 'signup_page.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -44,6 +45,16 @@ class _SignInState extends State<SignIn> {
         context,
         MaterialPageRoute(builder: (_) => const HomeScreen()),
         (route) => false,
+      );
+    } on PlatformException catch (e) {
+      // Surface detailed platform error (e.g., ApiException: 10)
+      final details = e.details?.toString() ?? '';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Google sign-in failed (${e.code}): ${e.message ?? ''} ${details.isNotEmpty ? '\nDetails: $details' : ''}',
+          ),
+        ),
       );
     } catch (e) {
       ScaffoldMessenger.of(
