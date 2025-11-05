@@ -6,6 +6,7 @@ import 'package:aayumitra/screens/profilemenu/meetteam.dart';
 import 'package:aayumitra/screens/profilemenu/privacy.dart';
 // import 'package:aayumitra/screens/profilemenu/contactus.dart';
 import 'package:flutter/material.dart';
+import 'package:aayumitra/screens/usermodel/care_models.dart';
 
 class ProfileSheet extends StatefulWidget {
   const ProfileSheet({super.key});
@@ -19,10 +20,10 @@ class _ProfilesheetState extends State<ProfileSheet>
   late AnimationController _controller;
   late Animation<Offset> _slideAnimation;
 
-  String _name = 'Diyaa Singla';
-  String _email = 'diya134singla@gmail.com';
-  String _address = 'Bathinda 151509';
-  String _phone = '94632 58181';
+  String _name = '';
+  String _email = '';
+  String _address = '';
+  String _phone = '';
 
   void _updateProfileField(String field, String value) {
     setState(() {
@@ -101,30 +102,35 @@ class _ProfilesheetState extends State<ProfileSheet>
                           ),
                         ),
                         const SizedBox(height: 16),
-                        const Center(
-                          child: Column(
-                            children: [
-                              Text(
-                                'Diyaa SIngla',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                'Diyaa134@gmail.com',
-                                style: TextStyle(color: Colors.grey),
-                              ),
-                              Text(
-                                'Bathinda 151509',
-                                style: TextStyle(color: Colors.grey),
-                              ),
-                              Text(
-                                '+91 94632 58181',
-                                style: TextStyle(color: Colors.grey),
-                              ),
-                            ],
+                        Center(
+                          child: ValueListenableBuilder(
+                            valueListenable: careContextNotifier,
+                            builder: (context, ctx, _) {
+                              final caregiver = ctx.caregiver;
+                              final elderly = ctx.elderly;
+                              final displayName = caregiver?.name ?? elderly?.name ?? '';
+                              final displayEmail = _email.isNotEmpty ? _email : '';
+                              final displayAddress = elderly?.address ?? caregiver?.address ?? '';
+                              final displayPhone = elderly?.phone ?? caregiver?.phone ?? '';
+                              return Column(
+                                children: [
+                                  Text(
+                                    displayName.isEmpty ? 'AayuMitra User' : displayName,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  if (displayEmail.isNotEmpty)
+                                    Text(displayEmail, style: const TextStyle(color: Colors.grey)),
+                                  if (displayAddress.isNotEmpty)
+                                    Text(displayAddress, style: const TextStyle(color: Colors.grey)),
+                                  if (displayPhone.isNotEmpty)
+                                    Text(displayPhone, style: const TextStyle(color: Colors.grey)),
+                                ],
+                              );
+                            },
                           ),
                         ),
                         const SizedBox(height: 24),

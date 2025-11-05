@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:aayumitra/screens/usermodel/care_models.dart';
+import 'package:aayumitra/services/firestore_service.dart';
 
 class NewRoutinePage extends StatefulWidget {
   final Function(Map<String, dynamic>) onSave;
@@ -126,19 +128,51 @@ class _NewRoutinePageState extends State<NewRoutinePage> {
             ),
             const SizedBox(height: 24),
             ElevatedButton(
-              onPressed: () {
-                final newMedication = {
-                  'name': nameController.text,
-                  'category': selectedCategory,
-                  'amount': selectedCategory == 'Syrup'
-                      ? '${amountController.text} tablespoons'
-                      : '${amountController.text} pills',
-                  'timeSlots': selectedTimeSlots,
-                  'repeatDays': selectedRepeatDays,
-                  'date': DateTime.now().toString().split(' ')[0],
-                };
-                widget.onSave(newMedication); // Pass the new medication back
-                Navigator.pop(context); // Go back to the previous page
+              onPressed: () async {
+                final title = nameController.text.trim();
+                final amountText = amountController.text.trim();
+                if (title.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please enter medication name')),
+                  );
+                  return;
+                }
+                if (amountText.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please enter amount')),
+                  );
+                  return;
+                }
+                try {
+                  final ctx = careContextNotifier.value;
+                  final appId = ctx.appId ?? 'aayu-mitra-app';
+                  final piId = ctx.piId ?? 'pi-hub-001';
+
+                  final newMedication = {
+                    'pi_id': piId,
+                    'title': title,
+                    'category': selectedCategory,
+                    'amount': selectedCategory == 'Syrup'
+                        ? '$amountText tablespoons'
+                        : '$amountText pills',
+                    'time_slots': selectedTimeSlots, // array<string>
+                    'repeat_days': selectedRepeatDays, // array<string>
+                    'created_at': DateTime.now().toIso8601String(),
+                  };
+
+                  await FirestoreService.instance.addMedication(
+                    appId: appId,
+                    medication: newMedication,
+                  );
+
+                  widget.onSave(newMedication); // Update local UI
+                  // ignore: use_build_context_synchronously
+                  Navigator.pop(context);
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Failed to save: $e')),
+                  );
+                }
               },
               child: const Text('Save Medication'),
             ),

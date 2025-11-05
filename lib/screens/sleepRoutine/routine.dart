@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:aayumitra/services/firestore_service.dart';
+import 'package:aayumitra/screens/usermodel/care_models.dart';
 
 class RoutinePage extends StatefulWidget {
   const RoutinePage({super.key});
@@ -111,17 +113,35 @@ class _RoutinePageState extends State<RoutinePage> {
               child: const Text('Cancel'),
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 final newRoutine = {
-                  'name': nameController.text.trim(),
-                  'time': timeController.text.trim(),
-                  'days': selectedDays,
+                  'title': nameController.text.trim(),
+                  'time': timeController.text.trim(), // HH:MM string (UI free-form)
+                  'repeat_days': selectedDays,
                   'notes': notesController.text.trim(),
                 };
-                if ((newRoutine['name'] as String).isNotEmpty &&
+                if ((newRoutine['title'] as String).isNotEmpty &&
                     (newRoutine['time'] as String).isNotEmpty &&
                     selectedDays.isNotEmpty) {
-                  _addNewRoutine(newRoutine);
+                  final ctx = careContextNotifier.value;
+                  final appId = ctx.appId ?? 'aayu-mitra-app';
+                  final piId = ctx.piId ?? 'pi-hub-001';
+
+                  await FirestoreService.instance.addRoutine(
+                    appId: appId,
+                    routine: {
+                      'pi_id': piId,
+                      ...newRoutine,
+                    },
+                  );
+
+                  _addNewRoutine({
+                    'name': newRoutine['title'],
+                    'time': newRoutine['time'],
+                    'days': newRoutine['repeat_days'],
+                    'notes': newRoutine['notes'],
+                  });
+                  // ignore: use_build_context_synchronously
                   Navigator.pop(context);
                 }
               },

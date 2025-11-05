@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:aayumitra/services/firestore_service.dart';
+import 'package:aayumitra/screens/usermodel/care_models.dart';
 
 class EditSleepRoutinePage extends StatefulWidget {
   final Function(Map<String, dynamic>) onSave;
@@ -252,19 +254,38 @@ class _EditSleepRoutinePageState extends State<EditSleepRoutinePage> {
             const SizedBox(height: 24),
             // Save Button
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (_bedtime != null && _wakeUpTime != null) {
+                  final plannedBed = _bedtime!.format(context);
+                  final plannedWake = _wakeUpTime!.format(context);
+
+                  // Update user_profile sleep_schedule
+                  final ctx = careContextNotifier.value;
+                  final appId = ctx.appId ?? 'aayu-mitra-app';
+                  final piId = ctx.piId ?? 'pi-hub-001';
+                  await FirestoreService.instance.upsertUserProfile(
+                    appId: appId,
+                    piId: piId,
+                    data: {
+                      'sleep_schedule': {
+                        'planned_bedtime': plannedBed,
+                        'planned_wakeup': plannedWake,
+                      }
+                    },
+                  );
+
                   final newRoutine = {
                     'date': DateTime.now().toString().split(' ')[0],
-                    'bedtime': _bedtime!.format(context),
-                    'wakeUpTime': _wakeUpTime!.format(context),
+                    'bedtime': plannedBed,
+                    'wakeUpTime': plannedWake,
                     'napDuration': _afternoonNapDuration != null
                         ? '${_afternoonNapDuration!.inMinutes} minutes'
                         : 'No Nap',
                     'sleepStatus': _sleepStatus,
                   };
-                  widget.onSave(newRoutine); // Pass the new routine back
-                  Navigator.pop(context); // Go back to the main page
+                  widget.onSave(newRoutine);
+                  // ignore: use_build_context_synchronously
+                  Navigator.pop(context);
                 }
               },
               style: ElevatedButton.styleFrom(

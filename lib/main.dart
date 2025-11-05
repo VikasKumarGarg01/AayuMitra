@@ -6,6 +6,7 @@ import 'package:aayumitra/screens/onboard/splash_screen.dart';
 import 'package:aayumitra/screens/signin/signin.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:aayumitra/services/care_context_persistence.dart';
 // import 'screens/onboard/splash_screen.dart';
 
 Future<void> main() async {
@@ -19,6 +20,8 @@ Future<void> main() async {
         // ignore: avoid_print
         print("Firebase Initialization Error: $error");
       });
+  // Load persisted caregiver/elderly context so writes have correct appId/piId
+  await CareContextStorage.loadIntoNotifier();
   runApp(const AayuMitraApp());
 }
 

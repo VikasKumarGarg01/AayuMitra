@@ -7,6 +7,7 @@ import 'package:aayumitra/screens/homescreen/navbar/highlight.dart';
 // import 'package:aayumitra/screens/homescreen/navbar/emergency.dart';
 // import 'package:aayumitra/screens/profilemenu/profile.dart';
 import 'package:aayumitra/screens/profilemenu/profilesheet.dart';
+import 'package:aayumitra/screens/usermodel/care_models.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -96,13 +97,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Hi Diyaa 👋,',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromARGB(137, 206, 44, 44),
-                          ),
+                        ValueListenableBuilder(
+                          valueListenable: careContextNotifier,
+                          builder: (context, ctx, _) {
+                            final name = ctx.caregiver?.name ??
+                                ctx.elderly?.name ??
+                                'there';
+                            return Text(
+                              'Hi $name 👋,',
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: Color.fromARGB(137, 206, 44, 44),
+                              ),
+                            );
+                          },
                         ),
                         Text(
                           _getGreeting(),

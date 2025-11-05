@@ -1,4 +1,5 @@
 import 'package:aayumitra/screens/homescreen/home.dart';
+import 'package:aayumitra/screens/signin/userselection/caregiver_details_page.dart';
 import 'package:flutter/material.dart';
 
 class UserRolePage extends StatefulWidget {
@@ -59,11 +60,22 @@ class _UserRolePageState extends State<UserRolePage> {
             ElevatedButton(
               onPressed: _selectedRole != null
                   ? () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (_) => const HomeScreen()),
-                        (route) => false,
-                      );
+                      if (_selectedRole == 'Caregiver') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const CaregiverDetailsPage(),
+                          ),
+                        );
+                      } else {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const HomeScreen(),
+                          ),
+                          (route) => false,
+                        );
+                      }
                     }
                   : null,
               child: const Text("Let's Go"),
