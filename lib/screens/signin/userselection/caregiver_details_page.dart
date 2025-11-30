@@ -1,6 +1,7 @@
 import 'package:aayumitra/screens/signin/userselection/elderly_details_page.dart';
 import 'package:aayumitra/screens/usermodel/care_models.dart';
 import 'package:aayumitra/services/care_context_persistence.dart';
+import 'package:aayumitra/services/firestore_service.dart';
 import 'package:flutter/material.dart';
 
 class CaregiverDetailsPage extends StatefulWidget {
@@ -17,6 +18,7 @@ class _CaregiverDetailsPageState extends State<CaregiverDetailsPage> {
   final _phone = TextEditingController();
   final _relationship = TextEditingController();
   final _address = TextEditingController();
+  final _piId = TextEditingController();
 
   @override
   void dispose() {
@@ -25,11 +27,36 @@ class _CaregiverDetailsPageState extends State<CaregiverDetailsPage> {
     _phone.dispose();
     _relationship.dispose();
     _address.dispose();
+  _piId.dispose();
     super.dispose();
   }
 
   void _next() {
     if (!_formKey.currentState!.validate()) return;
+    // Check piId uniqueness if entered
+    final enteredPiId = _piId.text.trim();
+    if (enteredPiId.isNotEmpty) {
+      final ctx = careContextNotifier.value;
+      final appId = ctx.appId ?? 'aayu-mitra-app';
+      FirestoreService.instance
+          .getUserProfile(appId: appId, piId: enteredPiId)
+          .then((doc) {
+        if (doc.exists) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('PI ID already in use. Choose another.')),
+          );
+          return; // Do not proceed
+        } else {
+          _persistAndNext();
+        }
+      });
+    } else {
+      _persistAndNext();
+    }
+  }
+
+  void _persistAndNext() {
+    // original logic moved here after uniqueness check
 
     final caregiver = CaregiverProfile(
       name: _name.text.trim(),
@@ -44,10 +71,9 @@ class _CaregiverDetailsPageState extends State<CaregiverDetailsPage> {
       caregiver: caregiver,
       elderly: current.elderly,
       appId: current.appId,
-      piId: current.piId,
+      piId: _piId.text.trim().isNotEmpty ? _piId.text.trim() : current.piId,
     );
     CareContextStorage.save(careContextNotifier.value);
-
     Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => const ElderlyDetailsPage()),
@@ -106,6 +132,20 @@ class _CaregiverDetailsPageState extends State<CaregiverDetailsPage> {
                 label: 'Address',
                 controller: _address,
                 maxLines: 2,
+              ),
+              const SizedBox(height: 12),
+              _LabeledField(
+                label: 'PI ID (hardware unique id)',
+                controller: _piId,
+                validator: (v) {
+                  final value = v?.trim() ?? '';
+                  if (value.isEmpty) return 'PI ID is required';
+                  if (value.length < 6) return 'PI ID too short';
+                  if (!RegExp(r'^[A-Za-z0-9_-]+$').hasMatch(value)) {
+                    return 'Only letters, numbers, - and _ allowed';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 20),
               SizedBox(

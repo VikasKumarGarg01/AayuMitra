@@ -129,8 +129,9 @@ class _RoutinePageState extends State<RoutinePage> {
 
                   await FirestoreService.instance.addRoutine(
                     appId: appId,
+                    piId: piId,
                     routine: {
-                      'pi_id': piId,
+                      'piId': piId,
                       ...newRoutine,
                     },
                   );

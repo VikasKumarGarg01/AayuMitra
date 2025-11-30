@@ -29,73 +29,88 @@ class FirestoreService {
     await col.doc(piId).set(data, SetOptions(merge: true));
   }
 
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUserProfile({
+    required String appId,
+    required String piId,
+  }) async {
+    final col = collection(appId, 'user_profile');
+    return col.doc(piId).get();
+  }
+
   // 2) medication
   Future<String> addMedication({
     required String appId,
+    required String piId,
     required Map<String, dynamic> medication,
   }) async {
     final col = collection(appId, 'medication');
-    final doc = await col.add(medication);
+    final doc = await col.add({...medication, 'piId': piId});
     return doc.id;
   }
 
   // 3) routines
   Future<String> addRoutine({
     required String appId,
+    required String piId,
     required Map<String, dynamic> routine,
   }) async {
     final col = collection(appId, 'routines');
-    final doc = await col.add(routine);
+    final doc = await col.add({...routine, 'piId': piId});
     return doc.id;
   }
 
   // 4) reminders
   Future<String> addReminder({
     required String appId,
+    required String piId,
     required Map<String, dynamic> reminder,
   }) async {
     final col = collection(appId, 'reminders');
-    final doc = await col.add(reminder);
+    final doc = await col.add({...reminder, 'piId': piId});
     return doc.id;
   }
 
   // 5) health_records
   Future<String> addHealthRecord({
     required String appId,
+    required String piId,
     required Map<String, dynamic> record,
   }) async {
     final col = collection(appId, 'health_records');
-    final doc = await col.add(record);
+    final doc = await col.add({...record, 'piId': piId});
     return doc.id;
   }
 
   // 6) sleep_logs
   Future<String> addSleepLog({
     required String appId,
+    required String piId,
     required Map<String, dynamic> log,
   }) async {
     final col = collection(appId, 'sleep_logs');
-    final doc = await col.add(log);
+    final doc = await col.add({...log, 'piId': piId});
     return doc.id;
   }
 
   // 7) alerts
   Future<String> addAlert({
     required String appId,
+    required String piId,
     required Map<String, dynamic> alert,
   }) async {
     final col = collection(appId, 'alerts');
-    final doc = await col.add(alert);
+    final doc = await col.add({...alert, 'piId': piId});
     return doc.id;
   }
 
   // 8) messages
   Future<String> addMessage({
     required String appId,
+    required String piId,
     required Map<String, dynamic> message,
   }) async {
     final col = collection(appId, 'messages');
-    final doc = await col.add(message);
+    final doc = await col.add({...message, 'piId': piId});
     return doc.id;
   }
 }

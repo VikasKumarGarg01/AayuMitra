@@ -149,7 +149,7 @@ class _NewRoutinePageState extends State<NewRoutinePage> {
                   final piId = ctx.piId ?? 'pi-hub-001';
 
                   final newMedication = {
-                    'pi_id': piId,
+                    'piId': piId,
                     'title': title,
                     'category': selectedCategory,
                     'amount': selectedCategory == 'Syrup'
@@ -162,6 +162,7 @@ class _NewRoutinePageState extends State<NewRoutinePage> {
 
                   await FirestoreService.instance.addMedication(
                     appId: appId,
+                    piId: piId,
                     medication: newMedication,
                   );
 
