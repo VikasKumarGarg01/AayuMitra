@@ -1,6 +1,6 @@
 import 'package:aayumitra/screens/profilemenu/animatedside.dart';
 import 'package:flutter/material.dart';
-// import 'animated_side_sheet.dart';
+// import 'package:aayumitra/l10n/app_localizations.dart';
 
 class LanguageSheet extends StatelessWidget {
   final Function(String) onSelect;
@@ -12,10 +12,10 @@ class LanguageSheet extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
-            'Select Language',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          ),
+          // Text(
+          //   AppLocalizations.of(context)!.selectLanguage,
+          //   style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          // ),
           const SizedBox(height: 24),
           ListTile(
             leading: const Icon(Icons.language),
@@ -53,3 +53,10 @@ void showLanguageSheet(BuildContext context, Function(String) onSelect) {
     },
   );
 }
+
+// Example usage in any widget:
+// showLanguageSheet(context, (langCode) {
+//   final locale = Locale(langCode);
+//   // Find the nearest _AayuMitraAppState and call setLocale
+//   (context.findAncestorStateOfType<_AayuMitraAppState>())?.setLocale(locale);
+// });

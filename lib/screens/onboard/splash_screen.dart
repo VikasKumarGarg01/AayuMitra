@@ -1,10 +1,7 @@
-// import 'package:aayumitra/redundant/signin.dart';
 import 'package:aayumitra/screens/signin/signup_page.dart';
 import 'package:aayumitra/screens/signin/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-// import 'package:aayumitra/redundant/devices/bluetooh.dart';
-// import 'package:aayumitra/screens/homescreen/home.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -73,17 +70,6 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // ElevatedButton.icon(
-            //   icon: const Icon(Icons.home),
-            //   label: const Text('Go to Home Page'),
-            //   onPressed: () {
-            //     Navigator.pop(context);
-            //     Navigator.pushReplacement(
-            //       context,
-            //       MaterialPageRoute(builder: (_) => const HomeScreen()),
-            //     );
-            //   },
-            // ),
             const SizedBox(height: 12),
             ElevatedButton.icon(
               icon: const Icon(Icons.home),
@@ -109,21 +95,6 @@ class _SplashScreenState extends State<SplashScreen> {
                 );
               },
             ),
-            // const SizedBox(height: 12),
-            // ElevatedButton.icon(
-            //   icon: const Icon(Icons.account_circle),
-            //   label: const Text('Bluetooh Page'),
-            //   onPressed: () {
-            //     // Implement Google sign-in
-            //     Navigator.pop(context);
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //         builder: (_) => const DeviceConnectScreen(),
-            //       ),
-            //     );
-            //   },
-            // ),
           ],
         ),
       ),
@@ -133,32 +104,29 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     if (!_showIntro) {
-      return Scaffold(
-        backgroundColor: Colors.white, // white splash background
+  return Scaffold(
+    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset('assets/images/logo.png', width: 150, height: 150),
               const SizedBox(height: 20),
-              const Text(
-                'AayuMitra',
-                style: TextStyle(
-                  color: Colors.teal, // teal text
-                  fontSize: 35,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 3,
-                ),
-              ),
-              const Text(
-                'Designed by Vikas Kumar Garg',
-                style: TextStyle(
-                  color: Colors.teal,
-                  fontSize: 15,
-                  // fontWeight: FontWeight.bold,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
+      Text(
+        'AayuMitra',
+        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+          color: Theme.of(context).colorScheme.primary,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 3,
+        ),
+      ),
+      Text(
+        'Designed by Vikas Kumar Garg',
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          color: Theme.of(context).colorScheme.primary,
+          fontStyle: FontStyle.italic,
+        ),
+      ),
             ],
           ),
         ),
@@ -185,15 +153,16 @@ class _SplashScreenState extends State<SplashScreen> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.teal[50],
+                          color: Theme.of(context).colorScheme.surface,
                           borderRadius: BorderRadius.circular(50),
                           boxShadow: [
                             BoxShadow(
-                              // ignore: deprecated_member_use
-                              color: Colors.teal.withOpacity(0.2),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.2),
                               blurRadius: 10,
                               offset: const Offset(5, 5),
-                              // blurRadius: BorderRadius.circular(25),
                             ),
                           ],
                         ),
@@ -206,8 +175,6 @@ class _SplashScreenState extends State<SplashScreen> {
                             fit: BoxFit.cover,
                             width: 400,
                             height: 350,
-                            // alignment: Alignment.center,
-                            // color: Colors.white,
                           ),
                         ),
                       ),
@@ -221,11 +188,12 @@ class _SplashScreenState extends State<SplashScreen> {
                           ),
                           child: Text(
                             paragraphs[index],
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.teal[700],
-                              fontStyle: FontStyle.italic,
-                            ),
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                  fontSize: 20,
+                                  color:
+                                      Theme.of(context).colorScheme.primary,
+                                  fontStyle: FontStyle.italic,
+                                ),
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -250,13 +218,12 @@ class _SplashScreenState extends State<SplashScreen> {
                             controller: _pageController,
                             count: imagePaths.length,
                             effect: WormEffect(
-                              dotColor: const Color.fromARGB(
-                                255,
-                                231,
-                                228,
-                                232,
-                              ),
-                              activeDotColor: Colors.teal.shade200,
+                dotColor: Theme.of(context)
+                  .colorScheme
+                  .primary
+                  .withOpacity(0.2),
+                activeDotColor:
+                  Theme.of(context).colorScheme.primary,
                               dotHeight: 8,
                               dotWidth: 8,
                             ),
@@ -264,11 +231,15 @@ class _SplashScreenState extends State<SplashScreen> {
                           const SizedBox(height: 20),
                           Text(
                             descriptions[_currentIndex],
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.teal,
-                            ),
+              style: Theme.of(context)
+                .textTheme
+                .titleMedium
+                ?.copyWith(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color:
+                    Theme.of(context).colorScheme.primary,
+                ),
                             textAlign: TextAlign.center,
                           ),
                         ],

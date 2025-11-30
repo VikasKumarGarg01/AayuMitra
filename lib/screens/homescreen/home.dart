@@ -105,29 +105,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                 'there';
                             return Text(
                               'Hi $name 👋,',
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                color: Color.fromARGB(137, 206, 44, 44),
-                              ),
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context).colorScheme.primary,
+                                  ),
                             );
                           },
                         ),
                         Text(
                           _getGreeting(),
-                          style: TextStyle(
-                            fontSize: 28,
-                            color: const Color.fromARGB(255, 115, 133, 135),
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                fontSize: 28,
+                                fontWeight: FontWeight.w600,
+                              ),
                         ),
                       ],
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.notifications,
-                      color: Colors.teal,
+                      color: Theme.of(context).colorScheme.primary,
                       size: 32,
                     ),
                     onPressed: () => _openNotifications(context),
@@ -143,8 +142,8 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        selectedItemColor: Colors.teal,
-        unselectedItemColor: Colors.grey,
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        unselectedItemColor: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
         showUnselectedLabels: true,
         items: List.generate(2, (i) {
           final icons = [Icons.star, Icons.settings_remote, Icons.warning];
@@ -157,7 +156,9 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Icon(
                 icons[i],
                 size: isSelected ? 32 : 24,
-                color: isSelected ? Colors.teal : Colors.grey,
+                color: isSelected
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
               ),
             ),
             label: labels[i],

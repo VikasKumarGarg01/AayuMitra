@@ -85,8 +85,8 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(),
-        title: const Text('Welcome Back to AayuMitra'),
+  leading: const BackButton(),
+  title: const Text('Welcome Back to AayuMitra'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -103,22 +103,22 @@ class _SignInState extends State<SignIn> {
             ),
             const SizedBox(height: 20),
             // Welcome
-            const Center(
+            Center(
               child: Text(
                 'Welcome!',
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
             ),
             const SizedBox(height: 5),
             // Subtitle
-            const Center(
+            Center(
               child: Text(
                 'Please login to start your journey',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black54,
-                  fontStyle: FontStyle.italic,
-                ),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontStyle: FontStyle.italic,
+                    ),
               ),
             ),
             const SizedBox(height: 20),
@@ -193,18 +193,6 @@ class _SignInState extends State<SignIn> {
                   color: Colors.red,
                   onTap: _signInWithGoogle,
                 ),
-                const SizedBox(width: 16),
-                _SocialCircleButton(
-                  icon: Icons.apple,
-                  color: Colors.black,
-                  onTap: () {},
-                ),
-                const SizedBox(width: 16),
-                _SocialCircleButton(
-                  icon: Icons.facebook,
-                  color: Colors.blue,
-                  onTap: () {},
-                ),
               ],
             ),
             const SizedBox(height: 32),
@@ -212,7 +200,8 @@ class _SignInState extends State<SignIn> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Don't have an account? "),
+                Text("Don't have an account? ",
+                    style: Theme.of(context).textTheme.bodyMedium),
                 GestureDetector(
                   onTap: () {
                     Navigator.pushReplacement(
@@ -220,10 +209,10 @@ class _SignInState extends State<SignIn> {
                       MaterialPageRoute(builder: (_) => const SignUpPage()),
                     );
                   },
-                  child: const Text(
+                  child: Text(
                     'Sign Up',
                     style: TextStyle(
-                      color: Colors.teal, // ensure teal for sign up link
+                      color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

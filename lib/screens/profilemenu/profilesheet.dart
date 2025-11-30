@@ -64,7 +64,7 @@ class _ProfilesheetState extends State<ProfileSheet>
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Container(
-              color: const Color.fromARGB(96, 237, 248, 250),
+              color: Theme.of(context).colorScheme.surface.withOpacity(0.6),
               width: double.infinity,
               height: double.infinity,
             ),
@@ -80,7 +80,7 @@ class _ProfilesheetState extends State<ProfileSheet>
               widthFactor: 0.60,
               heightFactor: 0.80,
               child: Material(
-                color: const Color.fromARGB(255, 240, 239, 239),
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: const BorderRadius.horizontal(
                   right: Radius.circular(32),
                 ),
@@ -116,18 +116,51 @@ class _ProfilesheetState extends State<ProfileSheet>
                                 children: [
                                   Text(
                                     displayName.isEmpty ? 'AayuMitra User' : displayName,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                   ),
                                   const SizedBox(height: 4),
                                   if (displayEmail.isNotEmpty)
-                                    Text(displayEmail, style: const TextStyle(color: Colors.grey)),
+                                    Text(
+                                      displayEmail,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface
+                                                .withOpacity(0.7),
+                                          ),
+                                    ),
                                   if (displayAddress.isNotEmpty)
-                                    Text(displayAddress, style: const TextStyle(color: Colors.grey)),
+                                    Text(
+                                      displayAddress,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface
+                                                .withOpacity(0.7),
+                                          ),
+                                    ),
                                   if (displayPhone.isNotEmpty)
-                                    Text(displayPhone, style: const TextStyle(color: Colors.grey)),
+                                    Text(
+                                      displayPhone,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface
+                                                .withOpacity(0.7),
+                                          ),
+                                    ),
                                 ],
                               );
                             },
@@ -138,9 +171,9 @@ class _ProfilesheetState extends State<ProfileSheet>
                           child: ListView(
                             children: [
                               ListTile(
-                                leading: const Icon(
+                                leading: Icon(
                                   Icons.language,
-                                  color: Colors.teal,
+                                  color: Theme.of(context).colorScheme.primary,
                                 ),
                                 title: const Text('Language'),
                                 onTap: () {
@@ -164,9 +197,9 @@ class _ProfilesheetState extends State<ProfileSheet>
                               //   onTap: () => _openSettings(context),
                               // ),
                               ListTile(
-                                leading: const Icon(
+                                leading: Icon(
                                   Icons.person,
-                                  color: Colors.teal,
+                                  color: Theme.of(context).colorScheme.primary,
                                 ),
                                 title: const Text('Account Settings'),
                                 // trailing: const Icon(Icons.arrow_forward_ios),
@@ -197,9 +230,9 @@ class _ProfilesheetState extends State<ProfileSheet>
                                 },
                               ),
                               ListTile(
-                                leading: const Icon(
+                                leading: Icon(
                                   Icons.privacy_tip,
-                                  color: Colors.teal,
+                                  color: Theme.of(context).colorScheme.primary,
                                 ),
                                 title: const Text('Privacy Policy'),
                                 // trailing: const Icon(Icons.arrow_forward_ios),
@@ -209,9 +242,9 @@ class _ProfilesheetState extends State<ProfileSheet>
                                 },
                               ),
                               ListTile(
-                                leading: const Icon(
+                                leading: Icon(
                                   Icons.contact_support,
-                                  color: Colors.teal,
+                                  color: Theme.of(context).colorScheme.primary,
                                 ),
                                 title: const Text('Contact Us'),
                                 onTap: () {
@@ -220,9 +253,9 @@ class _ProfilesheetState extends State<ProfileSheet>
                                 },
                               ),
                               ListTile(
-                                leading: const Icon(
+                                leading: Icon(
                                   Icons.group,
-                                  color: Colors.teal,
+                                  color: Theme.of(context).colorScheme.primary,
                                 ),
                                 title: const Text('Meet Our Team'),
                                 onTap: () {

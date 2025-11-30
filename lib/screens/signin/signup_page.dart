@@ -239,18 +239,6 @@ class _SignUpPageState extends State<SignUpPage> {
                     color: Colors.red,
                     onTap: _signUpWithGoogle,
                   ),
-                  const SizedBox(width: 20),
-                  _SocialCircleButton(
-                    icon: Icons.apple,
-                    color: Colors.black,
-                    onTap: () {},
-                  ),
-                  const SizedBox(width: 20),
-                  _SocialCircleButton(
-                    icon: Icons.facebook,
-                    color: Colors.blue,
-                    onTap: () {},
-                  ),
                 ],
               ),
               const SizedBox(height: 10),
