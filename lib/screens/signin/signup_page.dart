@@ -1,15 +1,9 @@
-// import 'package:aayumitra/screens/homescreen/home.dart';
-// ignore_for_file: use_build_context_synchronously
 
-import 'package:aayumitra/screens/signin/userselection/user_role_page.dart';
+import 'package:aayumitra/screens/signin/userselection/caregiver_details_page.dart';
 import 'package:flutter/material.dart';
 import 'signin.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-// import 'package:aayumitra/home/home_screen.dart';
-
-// import 'userselection\user_role_page.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -52,7 +46,7 @@ class _SignUpPageState extends State<SignUpPage> {
       // Navigate to user role selection on success
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (_) => const UserRolePage()),
+        MaterialPageRoute(builder: (_) => const CaregiverDetailsPage()),
         (route) => false,
       );
     } catch (e) {
@@ -211,7 +205,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => const UserRolePage(),
+                              builder: (_) => const CaregiverDetailsPage(),
                             ),
                             (route) => false,
                           );
