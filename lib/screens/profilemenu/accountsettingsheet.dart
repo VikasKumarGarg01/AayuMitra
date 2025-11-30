@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-// import 'dart:ui';
-// import 'package:aayumitra/screens/onboard/splash_screen.dart';
 import 'package:aayumitra/screens/profilemenu/animatedside.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:restart_app/restart_app.dart';
+import 'package:aayumitra/services/care_context_persistence.dart';
+import 'package:aayumitra/screens/usermodel/care_models.dart';
+import 'package:aayumitra/screens/signin/userselection/caregiver_details_page.dart';
 
 class AccountSettingsSheet extends StatelessWidget {
   final String name;
@@ -21,36 +22,6 @@ class AccountSettingsSheet extends StatelessWidget {
     required this.onUpdate,
   });
 
-  void _editField(
-    BuildContext context,
-    String field,
-    String currentValue,
-  ) async {
-    final controller = TextEditingController(text: currentValue);
-    final result = await showDialog<String>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Edit $field'),
-        content: TextField(
-          controller: controller,
-          decoration: InputDecoration(labelText: 'Enter new $field'),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, controller.text),
-            child: const Text('Save'),
-          ),
-        ],
-      ),
-    );
-    if (result != null && result.trim().isNotEmpty) {
-      onUpdate(field, result.trim());
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,55 +35,27 @@ class AccountSettingsSheet extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           ListTile(
-            leading: const Icon(Icons.person, color: Colors.teal),
-            title: const Text('Name'),
-            subtitle: Text(name),
-            trailing: IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () => _editField(context, 'Name', name),
-            ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.email, color: Colors.teal),
-            title: const Text('Email'),
-            subtitle: Text(email),
-            trailing: IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () => _editField(context, 'Email', email),
-            ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.home, color: Colors.teal),
-            title: const Text('Address'),
-            subtitle: Text(address),
-            trailing: IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () => _editField(context, 'Address', address),
-            ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.phone, color: Colors.teal),
-            title: const Text('Phone'),
-            subtitle: Text(phone),
-            trailing: IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () => _editField(context, 'Phone', phone),
-            ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.lock_reset, color: Colors.teal),
-            title: const Text('Reset Password'),
-            onTap: () {
+            leading: const Icon(Icons.refresh, color: Colors.teal),
+            title: const Text('Change Details'),
+            subtitle: const Text('Re-enter caregiver & elderly info'),
+            onTap: () async {
               Navigator.pop(context);
-              Navigator.pushNamed(context, '/forgot-password');
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.devices, color: Colors.teal),
-            title: const Text('Add/Remove Device'),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, '/device-management');
+              // Keep existing piId and appId; re-enter details and upsert will overwrite
+              // Clear local caregiver/elderly but preserve IDs
+              final prev = careContextNotifier.value;
+              careContextNotifier.value = CareContext(
+                appId: prev.appId,
+                piId: prev.piId,
+              );
+              await CareContextStorage.save(careContextNotifier.value);
+              // Navigate to caregiver details
+              // ignore: use_build_context_synchronously
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const CaregiverDetailsPage(),
+                ),
+              );
             },
           ),
           ListTile(
@@ -138,6 +81,9 @@ class AccountSettingsSheet extends StatelessWidget {
               );
               if (shouldLogout == true) {
                 await FirebaseAuth.instance.signOut();
+                // Clear context too
+                careContextNotifier.value = CareContext();
+                await CareContextStorage.save(careContextNotifier.value);
                 Restart.restartApp();
               }
             },
