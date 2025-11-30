@@ -17,9 +17,7 @@ class _SignUpPageState extends State<SignUpPage> {
   bool _agreed = false;
 
   // Controllers for form fields
-  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _mobileController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _rePasswordController = TextEditingController();
 
@@ -27,6 +25,47 @@ class _SignUpPageState extends State<SignUpPage> {
       _formKey.currentState?.validate() == true &&
       _agreed &&
       _passwordController.text == _rePasswordController.text;
+
+  Future<void> _signUpWithEmailPassword() async {
+    if (!_canSignUp) return;
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      );
+      // On success, proceed to caregiver details
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => const CaregiverDetailsPage()),
+        (route) => false,
+      );
+    } on FirebaseAuthException catch (e) {
+      String message;
+      switch (e.code) {
+        case 'email-already-in-use':
+          message = 'Email already in use.';
+          break;
+        case 'invalid-email':
+          message = 'Invalid email address.';
+          break;
+        case 'operation-not-allowed':
+          message = 'Email/password accounts are not enabled.';
+          break;
+        case 'weak-password':
+          message = 'Password is too weak.';
+          break;
+        default:
+          message = 'Sign-up failed (${e.code}).';
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Sign-up failed: $e')),
+      );
+    }
+  }
 
   Future<void> _signUpWithGoogle() async {
     try {
@@ -104,20 +143,6 @@ class _SignUpPageState extends State<SignUpPage> {
               // const Text('Name'),
               // const SizedBox(height: 5),
               TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Name',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  hintText: 'How should we call you?',
-                ),
-                validator: (v) =>
-                    v == null || v.isEmpty ? 'Enter your name' : null,
-              ),
-              // const Text('Name'),
-              const SizedBox(height: 10),
-              TextFormField(
                 controller: _emailController,
                 decoration: const InputDecoration(
                   labelText: 'Email',
@@ -131,22 +156,6 @@ class _SignUpPageState extends State<SignUpPage> {
                     : null,
               ),
               const SizedBox(height: 10),
-              TextFormField(
-                controller: _mobileController,
-                decoration: const InputDecoration(
-                  labelText: 'Mobile Number',
-                  prefixText: '+91 ',
-                  // labelText: 'Name',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  hintText:
-                      'How should we contact you?', // Change country code as needed
-                ),
-                keyboardType: TextInputType.phone,
-                validator: (v) =>
-                    v == null || v.length < 10 ? 'Enter valid mobile' : null,
-              ),
               const SizedBox(height: 10),
               TextFormField(
                 controller: _passwordController,
@@ -200,17 +209,7 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: _canSignUp
-                      ? () {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const CaregiverDetailsPage(),
-                            ),
-                            (route) => false,
-                          );
-                        }
-                      : null,
+                  onPressed: _canSignUp ? _signUpWithEmailPassword : null,
                   child: const Text('Sign Up'),
                 ),
               ),
