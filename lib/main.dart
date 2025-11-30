@@ -1,12 +1,5 @@
-// import 'package:aayumitra/redundant/devices/bluetooh.dart';
-// import 'package:aayumitra/screens/homescreen/home.dart';
-// import 'package:aayumitra/screens/homescreen/navbar/emergency.dart';
-import 'package:aayumitra/screens/homescreen/home.dart';
+
 import 'package:aayumitra/screens/onboard/splash_screen.dart';
-import 'package:aayumitra/screens/signin/signin.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:aayumitra/screens/signin/userselection/caregiver_details_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:aayumitra/services/care_context_persistence.dart';
@@ -127,61 +120,11 @@ class AayuMitraApp extends StatelessWidget {
       title: 'AayuMitra',
       theme: lightTheme,
       darkTheme: darkTheme,
-      themeMode: ThemeMode.system, // Respect system setting
-      // Use auth wrapper to decide initial route based on auth state
-      home: const AuthWrapper(),
+      themeMode: ThemeMode.system,
+      home: const SplashScreen(), // User will go through normal sign in/up flow
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class AuthWrapper extends StatelessWidget {
-  const AuthWrapper({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<User?> (
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          // Show splash while determining auth state
-          return const SplashScreen();
-        }
-        if (snapshot.hasData) {
-          // User is signed in: check profile completion
-          final uid = snapshot.data!.uid;
-          return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-            future: FirebaseFirestore.instance.collection('users').doc(uid).get(),
-            builder: (context, snap) {
-              if (snap.connectionState == ConnectionState.waiting) {
-                return const SplashScreen();
-              }
-              final exists = snap.data?.exists == true;
-              final profileCompleted = exists == true
-                  ? (snap.data!.data()?['profileCompleted'] == true)
-                  : false;
-              if (!profileCompleted) {
-                // Route first-time users to caregiver details
-                return const CaregiverDetailsPage();
-              }
-              return const HomePageGate();
-            },
-          );
-        }
-        // Not signed in
-        return const SignIn();
-      },
-    );
-  }
-}
-
-/// A small gate to ensure CareContext is loaded before showing Home
-class HomePageGate extends StatelessWidget {
-  const HomePageGate({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    // We already load CareContext at startup in main(); just show home.
-    return const HomeScreen();
-  }
-}
+// Removed AuthWrapper logic to enforce manual sign in/up navigation.

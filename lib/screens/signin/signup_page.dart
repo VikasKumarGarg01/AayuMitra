@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'signin.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -82,16 +84,66 @@ class _SignUpPageState extends State<SignUpPage> {
 
       await FirebaseAuth.instance.signInWithCredential(credential);
 
-      // Navigate to user role selection on success
+      // After sign-in, check if user already exists in Firestore
+      final uid = FirebaseAuth.instance.currentUser?.uid;
+      if (uid == null) {
+        throw Exception('No user after Google sign-in');
+      }
+      final userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      if (userDoc.exists) {
+        // Existing user: show error and redirect to Sign In
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Account already exists. Please sign in.')),
+        );
+        await FirebaseAuth.instance.signOut();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const SignIn()),
+          (route) => false,
+        );
+        return;
+      }
+
+      // New user: go to caregiver details
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (_) => const CaregiverDetailsPage()),
         (route) => false,
       );
+    } on FirebaseAuthException catch (e) {
+      String message;
+      switch (e.code) {
+        case 'account-exists-with-different-credential':
+          message = 'Account exists with a different sign-in method.';
+          break;
+        case 'invalid-credential':
+          message = 'Invalid Google credential.';
+          break;
+        case 'operation-not-allowed':
+          message = 'Google sign-in not enabled.';
+          break;
+        case 'user-disabled':
+          message = 'User account is disabled.';
+          break;
+        default:
+          message = 'Google sign-in failed (${e.code}).';
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+    } on PlatformException catch (e) {
+      final details = e.details?.toString() ?? '';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Google sign-in failed (${e.code}): ${e.message ?? ''}${details.isNotEmpty ? '\nDetails: $details' : ''}',
+          ),
+        ),
+      );
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Google sign-in failed: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Google sign-in failed: $e')),
+      );
     }
   }
 
