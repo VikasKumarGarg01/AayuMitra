@@ -43,8 +43,6 @@ class _ControlboardState extends State<Controlboard> {
               onPressed: () {
                 final message = messageController.text.trim();
                 if (message.isNotEmpty) {
-                  // Add the message to the conversation history
-                  // Replace this with your logic to update the conversation history
                   print('Message added to conversation history: $message');
                 }
                 Navigator.pop(context);
@@ -224,10 +222,28 @@ class _ControlboardState extends State<Controlboard> {
 
   @override
   Widget build(BuildContext context) {
-    final categories = [
-      {'title': 'Edit Routine', 'icon': Icons.edit},
-      {'title': 'Leave a Message', 'icon': Icons.voice_chat},
-      {'title': 'Add Reminder', 'icon': Icons.add_alert},
+    final actions = [
+      {
+        'title': 'Edit Routine',
+        'subtitle': 'Modify existing care schedule',
+        'icon': Icons.edit,
+        'onTap': () => _navigateToEditRoutine(context),
+        'color': Colors.teal.shade50,
+      },
+      {
+        'title': 'Leave a Message',
+        'subtitle': 'Send a quick note to caregiver',
+        'icon': Icons.voice_chat,
+        'onTap': () => _leaveMessage(context),
+        'color': Colors.blue.shade50,
+      },
+      {
+        'title': 'Add Reminder',
+        'subtitle': 'Schedule a new care reminder',
+        'icon': Icons.add_alert,
+        'onTap': () => _addReminder(context),
+        'color': Colors.orange.shade50,
+      },
     ];
 
     return SingleChildScrollView(
@@ -241,99 +257,146 @@ class _ControlboardState extends State<Controlboard> {
           ),
           const SizedBox(height: 12),
           if (_showWarning)
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(207, 252, 223, 223),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.warning,
-                    size: 36,
-                    color: const Color.fromARGB(127, 255, 0, 0),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Text(
-                      'Please ensure you have completed all necessary health checks before proceeding with any changes to care routines!',
-                      style: TextStyle(
-                        color: const Color.fromARGB(127, 255, 0, 0),
+            LayoutBuilder(builder: (context, constraints) {
+              return Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(207, 252, 223, 223),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(top: 2),
+                      child: Icon(
+                        Icons.warning,
+                        size: 30,
+                        color: Color.fromARGB(127, 255, 0, 0),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  IconButton(
-                    icon: const Icon(
-                      Icons.close,
-                      size: 20,
-                      color: Color.fromARGB(127, 255, 0, 0),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Please ensure you have completed all necessary health checks before proceeding with any changes to care routines!',
+                            style: const TextStyle(
+                              fontSize: 13,
+                              height: 1.3,
+                              color: Color.fromARGB(127, 255, 0, 0),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _showWarning = false;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
+                    IconButton(
+                      visualDensity: VisualDensity.compact,
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      icon: const Icon(
+                        Icons.close,
+                        size: 18,
+                        color: Color.fromARGB(127, 255, 0, 0),
+                      ),
+                      onPressed: () => setState(() => _showWarning = false),
+                    ),
+                  ],
+                ),
+              );
+            }),
           const SizedBox(height: 24),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: categories.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 25,
-              crossAxisSpacing: 25,
-              childAspectRatio: 2,
-            ),
-            itemBuilder: (context, index) {
-              final item = categories[index];
-              return GestureDetector(
-                onTap: () {
-                  if (item['title'] == 'Edit Routine') {
-                    _navigateToEditRoutine(context);
-                  } else if (item['title'] == 'Leave a Message') {
-                    _leaveMessage(context);
-                  } else if (item['title'] == 'Add Reminder') {
-                    _addReminder(context);
-                  }
-                },
+          Column(
+            children: actions.map((item) {
+              final Color accent = Colors.teal;
+              return InkWell(
+                onTap: item['onTap'] as void Function(),
+                borderRadius: BorderRadius.circular(20),
                 child: Container(
+                  margin: const EdgeInsets.only(bottom: 16),
                   decoration: BoxDecoration(
-                    color: Colors.teal[50],
-                    borderRadius: BorderRadius.circular(25),
+                    borderRadius: BorderRadius.circular(20),
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? const Color(0xFF1E1E1E)
+                        : Colors.white,
+                    border: Border.all(color: accent.withOpacity(0.35), width: 1.2),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        blurRadius: 8,
+                        color: accent.withOpacity(0.12),
+                        blurRadius: 10,
                         offset: const Offset(0, 4),
                       ),
                     ],
                   ),
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: Row(
                     children: [
-                      Icon(
-                        item['icon'] as IconData,
-                        size: 36,
-                        color: Colors.teal,
+                      // Accent strip
+                      Container(
+                        width: 8,
+                        height: 84,
+                        decoration: BoxDecoration(
+                          color: accent,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            bottomLeft: Radius.circular(20),
+                          ),
+                        ),
                       ),
-                      const SizedBox(height: 15),
-                      Text(
-                        item['title'] as String,
-                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 54,
+                                width: 54,
+                                decoration: BoxDecoration(
+                                  color: accent.withOpacity(0.10),
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Icon(
+                                  item['icon'] as IconData,
+                                  size: 28,
+                                  color: accent,
+                                ),
+                              ),
+                              const SizedBox(width: 18),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item['title'] as String,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 6),
+                                    Text(
+                                      item['subtitle'] as String,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: Theme.of(context).brightness == Brightness.dark
+                                            ? Colors.grey[300]
+                                            : Colors.grey[700],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Icon(Icons.chevron_right, color: accent, size: 26),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
               );
-            },
+            }).toList(),
           ),
         ],
       ),

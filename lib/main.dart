@@ -3,6 +3,7 @@ import 'package:aayumitra/screens/onboard/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:aayumitra/services/care_context_persistence.dart';
+import 'package:aayumitra/services/translation_service.dart';
 // import 'screens/onboard/splash_screen.dart';
 
 Future<void> main() async {
@@ -18,6 +19,7 @@ Future<void> main() async {
       });
   // Load persisted caregiver/elderly context so writes have correct appId/piId
   await CareContextStorage.loadIntoNotifier();
+  await TranslationService.instance.init();
   runApp(const AayuMitraApp());
 }
 

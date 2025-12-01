@@ -1,145 +1,169 @@
 // import 'package:aayumitra/screens/homescreen/navbar/offer.dart';
+import 'package:flutter/material.dart';
 import 'package:aayumitra/screens/conversation/conversation.dart';
 import 'package:aayumitra/screens/health/track_health.dart';
 import 'package:aayumitra/screens/medicationroutine/medication.dart';
 import 'package:aayumitra/screens/sleepRoutine/sleep.dart'; // Import SleepRoutinePage
+import 'package:aayumitra/services/glass_widgets.dart';
 // import 'package:aayumitra/screens/medicationroutine/medication.dart';
-import 'package:flutter/material.dart';
-
-// import 'package:aayumitra/screens/medicationroutine/medication_routine.dart'; // Import the Medication Routine page
-// AayuMitra\lib\screens\medicationroutine\medication.dart
 class CareDashboard extends StatelessWidget {
   const CareDashboard({super.key});
 
+  void _open(BuildContext context, String title) {
+    Widget page;
+    switch (title) {
+      case 'Medication Routine':
+        page = const MedicationRoutinePage();
+        break;
+      case 'Sleep Routine':
+        page = const SleepRoutinePage();
+        break;
+      case 'Track Health':
+        page = const TrackHealthPage();
+        break;
+      case 'Conversation History':
+      default:
+        page = const ConversationPage();
+    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => page),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final categories = [
-      {'title': 'Medication Routine', 'icon': Icons.medication},
-      {'title': 'Sleep Routine', 'icon': Icons.bedtime},
-      {'title': 'Conversation History', 'icon': Icons.message},
-      {'title': 'Track Health', 'icon': Icons.health_and_safety},
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cs = Theme.of(context).colorScheme;
+    final cards = [
+      {
+        'title': 'Medication Routine',
+        'subtitle': 'View & manage timings',
+        'icon': Icons.medication,
+        'color': cs.primary.withOpacity(0.12),
+      },
+      {
+        'title': 'Sleep Routine',
+        'subtitle': 'Track rest patterns',
+        'icon': Icons.bedtime,
+        'color': cs.primary.withOpacity(0.12),
+      },
+      {
+        'title': 'Conversation History',
+        'subtitle': 'Review past messages',
+        'icon': Icons.message,
+        'color': cs.primary.withOpacity(0.12),
+      },
+      {
+        'title': 'Track Health',
+        'subtitle': 'Vitals & progress',
+        'icon': Icons.health_and_safety,
+        'color': cs.primary.withOpacity(0.12),
+      },
     ];
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // const Text("Hi, Robert! Good Morning ", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-          // const SizedBox(height: 16),
-          // TextField(
-          //   decoration: InputDecoration(
-          //     hintText: 'Search care services...',
-          //     prefixIcon: const Icon(Icons.search),
-          //     filled: true,
-          //     fillColor: Colors.grey[200],
-          //     border: OutlineInputBorder(
-          //       borderRadius: BorderRadius.circular(12),
-          //       borderSide: BorderSide.none,
-          //     ),
-          //   ),
-          // ),
-          // const SizedBox(height: 24),
           Text(
             'Care Categories',
-            style: TextStyle(
-              fontSize: 26,
-              fontWeight: FontWeight.w700,
-              color: Colors.grey[800],
-            ),
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+          ),
+          const SizedBox(height: 16),
+          // Staggered vertical cards with gradients
+          Column(
+            children: [
+              for (int i = 0; i < cards.length; i++) ...[
+                _CategoryCard(
+                  title: cards[i]['title'] as String,
+                  subtitle: cards[i]['subtitle'] as String,
+                  icon: cards[i]['icon'] as IconData,
+                  bgColor: cards[i]['color'] as Color,
+                  accent: cs.primary,
+                  dark: isDark,
+                  onTap: () => _open(context, cards[i]['title'] as String),
+                ),
+                const SizedBox(height: 18),
+              ]
+            ],
           ),
           const SizedBox(height: 12),
-          // Container(
-          //   width: double.infinity,
-          //   padding: const EdgeInsets.all(15),
-          //   decoration: BoxDecoration(
-          //     color: Colors.teal[50],
-          //     borderRadius: BorderRadius.circular(25),
-          //   ),
-          //   child: const OfferCarousel(),
-          // ),
-          // const SizedBox(height: 12),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: categories.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 25,
-              crossAxisSpacing: 25,
-              childAspectRatio: 1.1,
-            ),
-            itemBuilder: (context, index) {
-              final item = categories[index];
-              return GestureDetector(
-                onTap: () {
-                  if (item['title'] == 'Medication Routine') {
-                    // Navigate to Medication Routine page
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MedicationRoutinePage(),
-                      ),
-                    );
-                  } else if (item['title'] == 'Sleep Routine') {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SleepRoutinePage(),
-                      ),
-                    );
-                  } else if (item['title'] == 'Track Health') {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const TrackHealthPage(),
-                      ),
-                    );
-                  } else if (item['title'] == 'Conversation History') {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ConversationPage(),
-                      ),
-                    );
-                  }
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.teal[50],
-                    borderRadius: BorderRadius.circular(25),
-                    boxShadow: [
-                      BoxShadow(
-                        // ignore: deprecated_member_use
-                        color: Colors.grey.withOpacity(0.3),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        item['icon'] as IconData,
-                        size: 36,
-                        color: Colors.teal,
-                      ),
-                      const SizedBox(height: 15),
-                      Text(
-                        item['title'] as String,
-                        style: const TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-
-          const SizedBox(height: 24),
         ],
+      ),
+    );
+  }
+}
+
+class _CategoryCard extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final Color bgColor;
+  final Color accent;
+  final bool dark;
+  final VoidCallback onTap;
+
+  const _CategoryCard({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.bgColor,
+    required this.accent,
+    required this.dark,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(24),
+      child: GlassCard(
+        blur: 14,
+        opacity: dark ? 0.08 : 0.14,
+        borderOpacity: 0.30,
+        borderRadius: const BorderRadius.all(Radius.circular(24)),
+        accentBorder: accent.withOpacity(0.4),
+        child: Row(
+          children: [
+            Container(
+              height: 56,
+              width: 56,
+              decoration: BoxDecoration(
+                color: accent.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: Icon(icon, size: 30, color: accent),
+            ),
+            const SizedBox(width: 20),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: dark ? Colors.white : Colors.black87,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    subtitle,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: dark ? Colors.white70 : Colors.grey[700],
+                        ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(Icons.chevron_right, color: accent, size: 26),
+          ],
+        ),
       ),
     );
   }

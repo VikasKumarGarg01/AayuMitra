@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:aayumitra/screens/profilemenu/accountsettingsheet.dart';
 import 'package:aayumitra/screens/profilemenu/contactus.dart';
-import 'package:aayumitra/screens/profilemenu/language.dart';
 import 'package:aayumitra/screens/profilemenu/meetteam.dart';
 import 'package:aayumitra/screens/profilemenu/privacy.dart';
 // import 'package:aayumitra/screens/profilemenu/contactus.dart';
@@ -172,37 +171,10 @@ class _ProfilesheetState extends State<ProfileSheet>
                             children: [
                               ListTile(
                                 leading: Icon(
-                                  Icons.language,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                                title: const Text('Language'),
-                                onTap: () {
-                                  Navigator.pop(context);
-                                  showLanguageSheet(context, (langCode) {
-                                    // Set app language here
-                                  });
-                                },
-                              ),
-                              //
-                              // ListTile(
-                              //   leading: const Icon(Icons.history),
-                              //   title: const Text('Recent Orders'),
-                              //   onTap: () {},
-                              // ),
-
-                              // ListTile(
-                              //   leading: const Icon(Icons.settings),
-                              //   title: const Text('Settings'),
-                              //   // trailing: const Icon(Icons.arrow_forward_ios),
-                              //   onTap: () => _openSettings(context),
-                              // ),
-                              ListTile(
-                                leading: Icon(
                                   Icons.person,
                                   color: Theme.of(context).colorScheme.primary,
                                 ),
                                 title: const Text('Account Settings'),
-                                // trailing: const Icon(Icons.arrow_forward_ios),
                                 onTap: () {
                                   Navigator.pop(context);
                                   showGeneralDialog(
