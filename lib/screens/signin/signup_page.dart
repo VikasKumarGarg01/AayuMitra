@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:aayumitra/services/glass_widgets.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -150,157 +151,158 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // leading: BackButton(),
-        // title: const Text('Create Account'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-        child: Form(
-          key: _formKey,
-          onChanged: () => setState(() {}),
-          child: ListView(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+          child: Column(
             children: [
-              // const SizedBox(height: 5),
-              // Logo
-              Center(
-                child: Image.asset(
-                  'assets/images/logo.png',
-                  width: 120,
-                  height: 120,
+              GlassCard(
+                blur: 18,
+                opacity: Theme.of(context).brightness == Brightness.dark ? 0.08 : 0.16,
+                borderOpacity: 0.28,
+                borderRadius: const BorderRadius.all(Radius.circular(18)),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back_ios_new),
+                      onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SignIn())),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Create your account',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 14),
-              // Welcome
-              const Center(
-                child: Text(
-                  'Welcome to Aayumitra!',
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 8),
-              // Subtitle
-              const Center(
-                child: Text(
-                  'Please login to start your journey',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black54,
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
-              ),
-              // const SizedBox(height: 32),
-              const SizedBox(height: 25),
-              // const Text('Name'),
-              // const SizedBox(height: 5),
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  hintText: 'How should we mail you?',
-                ),
-                validator: (v) => v == null || !v.contains('@')
-                    ? 'Enter a valid email'
-                    : null,
-              ),
-              const SizedBox(height: 10),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
-                  // labelText: 'Name',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  hintText: 'Set a Strong Password that you can remeber',
-                ),
-                validator: (v) =>
-                    v == null || v.length < 6 ? 'Min 6 chars' : null,
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _rePasswordController,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: 'Re-enter Password',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  hintText: 'Let\'s see if you remember it correctly',
-                ),
-                validator: (v) => v != _passwordController.text
-                    ? 'Passwords do not match'
-                    : null,
-              ),
-              // const SizedBox(height: 25),
-              Row(
-                children: [
-                  Checkbox(
-                    value: _agreed,
-                    onChanged: (v) => setState(() => _agreed = v ?? false),
-                    activeColor: Colors.teal, // teal checkbox
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () => setState(() => _agreed = !_agreed),
-                      child: const Text(
-                        'I agree with Terms and Privacy Policy',
-                        style: TextStyle(decoration: TextDecoration.underline),
+              const SizedBox(height: 18),
+              Expanded(
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 520),
+                      child: GlassCard(
+                        blur: 22,
+                        opacity: Theme.of(context).brightness == Brightness.dark ? 0.10 : 0.20,
+                        borderOpacity: 0.30,
+                        borderRadius: const BorderRadius.all(Radius.circular(20)),
+                        padding: const EdgeInsets.fromLTRB(22, 24, 22, 20),
+                        child: Form(
+                          key: _formKey,
+                          onChanged: () => setState(() {}),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Row(
+                                children: [
+                                  Image.asset('assets/images/logo.png', width: 56, height: 56),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        const Text('Welcome to AayuMitra!', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
+                                        Text('Please login to start your journey', style: Theme.of(context).textTheme.bodySmall?.copyWith(fontStyle: FontStyle.italic)),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 18),
+                              TextFormField(
+                                controller: _emailController,
+                                decoration: const InputDecoration(
+                                  labelText: 'Email',
+                                  border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                  hintText: 'How should we mail you?',
+                                ),
+                                validator: (v) => v == null || !v.contains('@') ? 'Enter a valid email' : null,
+                              ),
+                              const SizedBox(height: 12),
+                              TextFormField(
+                                controller: _passwordController,
+                                obscureText: true,
+                                decoration: const InputDecoration(
+                                  labelText: 'Password',
+                                  border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                  hintText: 'Set a Strong Password that you can remember',
+                                ),
+                                validator: (v) => v == null || v.length < 6 ? 'Min 6 chars' : null,
+                              ),
+                              const SizedBox(height: 12),
+                              TextFormField(
+                                controller: _rePasswordController,
+                                obscureText: true,
+                                decoration: const InputDecoration(
+                                  labelText: 'Re-enter Password',
+                                  border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                  hintText: "Let's see if you remember it correctly",
+                                ),
+                                validator: (v) => v != _passwordController.text ? 'Passwords do not match' : null,
+                              ),
+                              const SizedBox(height: 12),
+                              Row(
+                                children: [
+                                  Checkbox(value: _agreed, onChanged: (v) => setState(() => _agreed = v ?? false), activeColor: Colors.teal),
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () => setState(() => _agreed = !_agreed),
+                                      child: const Text('I agree with Terms and Privacy Policy', style: TextStyle(decoration: TextDecoration.underline)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  onPressed: _canSignUp ? _signUpWithEmailPassword : null,
+                                  child: const Text('Sign Up'),
+                                ),
+                              ),
+                              const SizedBox(height: 14),
+                              Row(
+                                children: const [
+                                  Expanded(child: Divider()),
+                                  SizedBox(width: 10),
+                                  Text('or'),
+                                  SizedBox(width: 10),
+                                  Expanded(child: Divider()),
+                                ],
+                              ),
+                              const SizedBox(height: 12),
+                              Center(
+                                child: _SocialCircleButton(
+                                  icon: Icons.g_mobiledata,
+                                  color: Colors.red,
+                                  onTap: _signUpWithGoogle,
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text('Already have a Google account? '),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SignIn()));
+                                    },
+                                    child: const Text('Login'),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _canSignUp ? _signUpWithEmailPassword : null,
-                  child: const Text('Sign Up'),
                 ),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  const Expanded(child: Divider()),
-                  const SizedBox(width: 10),
-                  const Text('or'),
-                  const SizedBox(width: 10),
-                  const Expanded(child: Divider()),
-                ],
-              ),
-              const SizedBox(height: 15),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _SocialCircleButton(
-                    icon: Icons.g_mobiledata,
-                    color: Colors.red,
-                    onTap: _signUpWithGoogle,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Already have a Google account? '),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (_) => const SignIn()),
-                      );
-                    },
-                    child: const Text('Login'),
-                  ),
-                ],
               ),
             ],
           ),

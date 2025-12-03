@@ -66,13 +66,34 @@ class PrivacyPolicyBody extends StatelessWidget {
   }
 
   Widget _sectionTitle(String title) {
-    return Text(
-      title,
-      style: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-        color: Colors.teal,
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final maxW = constraints.maxWidth - 12; // small safety margin
+        return ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: maxW),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Color(0xFF00897B), Color(0x3300897B)],
+              ),
+            ),
+            child: Text(
+              title,
+              softWrap: true,
+              overflow: TextOverflow.visible,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 

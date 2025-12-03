@@ -7,6 +7,7 @@ import 'signup_page.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:aayumitra/services/glass_widgets.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -84,143 +85,158 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-  leading: const BackButton(),
-  title: const Text('Welcome Back to AayuMitra'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: ListView(
-          children: [
-            const SizedBox(height: 40),
-            // Logo
-            Center(
-              child: Image.asset(
-                'assets/images/logo.png',
-                width: 120,
-                height: 120,
-              ),
-            ),
-            const SizedBox(height: 20),
-            // Welcome
-            Center(
-              child: Text(
-                'Welcome!',
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            // Subtitle
-            Center(
-              child: Text(
-                'Please login to start your journey',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontStyle: FontStyle.italic,
-                    ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            // Username
-            const Text('Email'),
-            const SizedBox(height: 8),
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter your email',
-              ),
-              keyboardType: TextInputType.emailAddress,
-              onChanged: (_) => setState(() {}),
-            ),
-            const SizedBox(height: 16),
-            // Password
-            const Text('Password'),
-            const SizedBox(height: 8),
-            TextField(
-              controller: _passController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter your password',
-              ),
-              onChanged: (_) => setState(() {}),
-            ),
-            const SizedBox(height: 8),
-            // Remember me & Forgot password
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+          child: Column(
+            children: [
+              // Header glass bar
+              GlassCard(
+                blur: 18,
+                opacity: Theme.of(context).brightness == Brightness.dark ? 0.08 : 0.16,
+                borderOpacity: 0.28,
+                borderRadius: const BorderRadius.all(Radius.circular(18)),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                child: Row(
                   children: [
-                    Checkbox(
-                      value: _remember,
-                      onChanged: (v) => setState(() => _remember = v ?? false),
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back_ios_new),
+                      onPressed: () => Navigator.pop(context),
                     ),
-                    const Text('Remember'),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Welcome back to AayuMitra',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                   ],
                 ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const ForgotPasswordPage(),
-                      ),
-                    );
-                  },
-                  child: const Text('Forgot Password?'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            // Continue button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _canSignIn ? _signInWithEmailPassword : null,
-                child: const Text('Sign In'),
               ),
-            ),
-            const SizedBox(height: 24),
-            // Social sign-in buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _SocialCircleButton(
-                  icon: Icons.g_mobiledata,
-                  color: Colors.red,
-                  onTap: _signInWithGoogle,
-                ),
-              ],
-            ),
-            const SizedBox(height: 32),
-            // Sign up link
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Don't have an account? ",
-                    style: Theme.of(context).textTheme.bodyMedium),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (_) => const SignUpPage()),
-                    );
-                  },
-                  child: Text(
-                    'Sign Up',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.bold,
+              const SizedBox(height: 18),
+              Expanded(
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 520),
+                      child: GlassCard(
+                        blur: 22,
+                        opacity: Theme.of(context).brightness == Brightness.dark ? 0.10 : 0.20,
+                        borderOpacity: 0.30,
+                        borderRadius: const BorderRadius.all(Radius.circular(20)),
+                        padding: const EdgeInsets.fromLTRB(22, 24, 22, 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            // Logo and title
+                            Row(
+                              children: [
+                                Image.asset('assets/images/logo.png', width: 56, height: 56),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Welcome!',
+                                        style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
+                                      ),
+                                      Text(
+                                        'Please login to start your journey',
+                                        style: Theme.of(context).textTheme.bodySmall?.copyWith(fontStyle: FontStyle.italic),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 18),
+                            // Email
+                            Text('Email', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600)),
+                            const SizedBox(height: 6),
+                            TextField(
+                              controller: _emailController,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: 'Enter your email',
+                              ),
+                              keyboardType: TextInputType.emailAddress,
+                              onChanged: (_) => setState(() {}),
+                            ),
+                            const SizedBox(height: 14),
+                            // Password
+                            Text('Password', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600)),
+                            const SizedBox(height: 6),
+                            TextField(
+                              controller: _passController,
+                              obscureText: true,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: 'Enter your password',
+                              ),
+                              onChanged: (_) => setState(() {}),
+                            ),
+                            const SizedBox(height: 8),
+                            // Remember + Forgot
+                            Row(
+                              children: [
+                                Checkbox(value: _remember, onChanged: (v) => setState(() => _remember = v ?? false)),
+                                const Text('Remember'),
+                                const Spacer(),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (_) => const ForgotPasswordPage()));
+                                  },
+                                  child: const Text('Forgot Password?'),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            // Sign in
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: _canSignIn ? _signInWithEmailPassword : null,
+                                child: const Text('Sign In'),
+                              ),
+                            ),
+                            const SizedBox(height: 18),
+                            // Google
+                            Center(
+                              child: _SocialCircleButton(
+                                icon: Icons.g_mobiledata,
+                                color: Colors.red,
+                                onTap: _signInWithGoogle,
+                              ),
+                            ),
+                            const SizedBox(height: 18),
+                            // Sign up link
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Don't have an account? ", style: Theme.of(context).textTheme.bodyMedium),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SignUpPage()));
+                                  },
+                                  child: Text(
+                                    'Sign Up',
+                                    style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: 24),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );

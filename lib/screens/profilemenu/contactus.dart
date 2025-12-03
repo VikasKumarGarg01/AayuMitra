@@ -1,4 +1,5 @@
 import 'package:aayumitra/screens/profilemenu/animatedside.dart';
+import 'package:aayumitra/services/glass_widgets.dart';
 import 'package:flutter/material.dart';
 
 // class PrivacyPolicySheet extends StatelessWidget {
@@ -25,7 +26,27 @@ class ContactUsSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSideSheet(
-      child: Column(
+      child: GlassCard(
+        blur: 26,
+        opacity: Theme.of(context).brightness == Brightness.dark ? 0.22 : 1,
+        borderOpacity: Theme.of(context).brightness == Brightness.dark ? 0.55 : 0.35,
+        borderRadius: const BorderRadius.all(Radius.circular(28)),
+        accentBorder: Theme.of(context).colorScheme.primary.withOpacity(0.6),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(24)),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Theme.of(context).colorScheme.primary.withOpacity(
+                    Theme.of(context).brightness == Brightness.dark ? 0.12 : 0.08),
+                Theme.of(context).colorScheme.secondary.withOpacity(
+                    Theme.of(context).brightness == Brightness.dark ? 0.10 : 0.06),
+              ],
+            ),
+          ),
+          child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           const Text(
@@ -34,45 +55,96 @@ class ContactUsSheet extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           ListTile(
-            leading: const Icon(Icons.email, color: Colors.teal),
+            leading: Container(
+              height: 40,
+              width: 56,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFF00897B),
+                    Color(0x3300897B),
+                  ],
+                ),
+                border: Border.all(color: const Color(0x5500897B), width: 0.8),
+              ),
+              child: const Center(child: Icon(Icons.email, color: Colors.white, size: 20)),
+            ),
             title: const Text('Email'),
             subtitle: const Text('support@aayumitra.com'),
           ),
           ListTile(
-            leading: const Icon(Icons.location_on, color: Colors.teal),
+            leading: Container(
+              height: 40,
+              width: 56,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFF00897B),
+                    Color(0x3300897B),
+                  ],
+                ),
+                border: Border.all(color: const Color(0x5500897B), width: 0.8),
+              ),
+              child: const Center(child: Icon(Icons.location_on, color: Colors.white, size: 20)),
+            ),
             title: const Text('Office Address'),
             subtitle: const Text('123 Health Street, Wellness City, 123456'),
           ),
           ListTile(
-            leading: const Icon(Icons.phone, color: Colors.teal),
+            leading: Container(
+              height: 40,
+              width: 56,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFF00897B),
+                    Color(0x3300897B),
+                  ],
+                ),
+                border: Border.all(color: const Color(0x5500897B), width: 0.8),
+              ),
+              child: const Center(child: Icon(Icons.phone, color: Colors.white, size: 20)),
+            ),
             title: const Text('Phone'),
             subtitle: const Text('+91 98765 43210'),
           ),
           ListTile(
-            leading: const Icon(Icons.help_outline, color: Colors.teal),
+            leading: Container(
+              height: 40,
+              width: 56,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFF00897B),
+                    Color(0x3300897B),
+                  ],
+                ),
+                border: Border.all(color: const Color(0x5500897B), width: 0.8),
+              ),
+              child: const Center(child: Icon(Icons.help_outline, color: Colors.white, size: 20)),
+            ),
             title: const Text('FAQs'),
             subtitle: const Text('Visit our FAQ section on the website.'),
           ),
         ],
+          ),
+        ),
       ),
     );
   }
 }
-
-// void showContactUsSheet(BuildContext context) {
-//   showGeneralDialog(
-//     context: context,
-//     barrierDismissible: true,
-//     barrierLabel: "Contact Us",
-//     // ignore: deprecated_member_use
-//     barrierColor: const Color.fromARGB(255, 213, 211, 211).withOpacity(0.3),
-//     transitionDuration: const Duration(milliseconds: 350),
-//     pageBuilder: (context, anim1, anim2) => const SizedBox.shrink(),
-//     transitionBuilder: (context, anim1, anim2, child) {
-//       return const ContactUsSheet();
-//     },
-//   );
-// }
 
 void showContactUsSheet(BuildContext context) {
   showGeneralDialog(
@@ -80,11 +152,14 @@ void showContactUsSheet(BuildContext context) {
     barrierDismissible: true,
     barrierLabel: "Contact Us",
     // ignore: deprecated_member_use
-    barrierColor: Colors.black.withOpacity(0.5),
-    transitionDuration: const Duration(milliseconds: 350),
+    barrierColor: Theme.of(context).colorScheme.scrim.withOpacity(0.60),
+    transitionDuration: const Duration(milliseconds: 380),
     pageBuilder: (context, anim1, anim2) => const SizedBox.shrink(),
     transitionBuilder: (context, anim1, anim2, child) {
-      return const ContactUsSheet();
+      return const SafeArea(
+        minimum: EdgeInsets.all(16),
+        child: ContactUsSheet(),
+      );
     },
   );
 }

@@ -42,7 +42,9 @@ class _AnimatedSideSheetState extends State<AnimatedSideSheet>
           child: GestureDetector(
             onTap: () => Navigator.pop(context),
             // ignore: deprecated_member_use
-            child: Container(color: Colors.black.withOpacity(0.3)),
+            child: Container(
+              color: Theme.of(context).colorScheme.scrim.withOpacity(0.55),
+            ),
           ),
         ),
         Align(
@@ -50,18 +52,22 @@ class _AnimatedSideSheetState extends State<AnimatedSideSheet>
           child: SlideTransition(
             position: _slideAnimation,
             child: FractionallySizedBox(
-              widthFactor: 0.6,
-              child: Material(
+              widthFactor: 0.96,
+              child: ClipRRect(
                 borderRadius: const BorderRadius.horizontal(
                   right: Radius.circular(32),
                 ),
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 40,
-                    horizontal: 24,
+                child: Container(
+                  // Transparent background to allow child (GlassCard) to define the visual
+                  color: Colors.transparent,
+                  child: Material(
+                    // Provide Material context for InkWell/ListTile without painting a solid color
+                    color: Colors.transparent,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 24, 8, 24),
+                      child: SingleChildScrollView(child: widget.child),
+                    ),
                   ),
-                  child: SingleChildScrollView(child: widget.child),
                 ),
               ),
             ),

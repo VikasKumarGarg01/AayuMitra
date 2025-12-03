@@ -81,7 +81,7 @@ class _ProfilesheetState extends State<ProfileSheet>
               child: SafeArea(
                 child: GlassCard(
                   blur: 20,
-                  opacity: Theme.of(context).brightness == Brightness.dark ? 0.08 : 0.16,
+                  opacity: Theme.of(context).brightness == Brightness.dark ? 0.08 : 0.06,
                   borderOpacity: 0.30,
                   borderRadius: const BorderRadius.horizontal(right: Radius.circular(32)),
                   padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 18),
@@ -238,7 +238,7 @@ class _ProfileAvatar extends StatelessWidget {
             shape: BoxShape.circle,
             border: Border.all(
         width: 2.5,
-              color: Colors.white.withOpacity(0.75),
+              color: const Color.fromARGB(255, 237, 239, 240).withOpacity(0.75),
             ),
           ),
           child: const CircleAvatar(
