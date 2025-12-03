@@ -48,7 +48,7 @@ class _NewRoutinePageState extends State<NewRoutinePage> {
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
-              value: selectedCategory,
+              initialValue: selectedCategory,
               items: categories
                   .map(
                     (category) => DropdownMenuItem(

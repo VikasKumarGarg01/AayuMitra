@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:aayumitra/services/glass_widgets.dart';
 // import 'package:aayumitra/screens/profilemenu/developer_settings.dart';
 import 'package:aayumitra/screens/profilemenu/animatedside.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,72 +28,128 @@ class AccountSettingsSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSideSheet(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text(
-            'Account Settings',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 24),
-          ListTile(
-            leading: const Icon(Icons.refresh, color: Colors.teal),
-            title: const Text('Change Details'),
-            subtitle: const Text('Re-enter caregiver & elderly info'),
-            onTap: () async {
-              Navigator.pop(context);
-              // Keep existing piId and appId; re-enter details and upsert will overwrite
-              // Clear local caregiver/elderly but preserve IDs
-              final prev = careContextNotifier.value;
-              careContextNotifier.value = CareContext(
-                appId: prev.appId,
-                piId: prev.piId,
-              );
-              await CareContextStorage.save(careContextNotifier.value);
-              // Navigate to caregiver details
-              // ignore: use_build_context_synchronously
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const CaregiverDetailsPage(),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.logout, color: Colors.teal),
-            title: const Text('Logout'),
-            onTap: () async {
-              final shouldLogout = await showDialog<bool>(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Are you sure?'),
-                  content: const Text('Do you really want to logout?'),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, false),
-                      child: const Text('Cancel'),
-                    ),
-                    ElevatedButton(
-                      onPressed: () => Navigator.pop(context, true),
-                      child: const Text('Logout'),
-                    ),
-                  ],
-                ),
-              );
-              if (shouldLogout == true) {
-                await FirebaseAuth.instance.signOut();
-                // Clear context too
-                careContextNotifier.value = CareContext();
+      child: GlassCard(
+        blur: 18,
+        opacity: Theme.of(context).brightness == Brightness.dark ? 0.10 : 0.18,
+        borderOpacity: 0.35,
+        borderRadius: const BorderRadius.all(Radius.circular(28)),
+        accentBorder: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Account Settings',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const SizedBox(height: 20),
+            _tile(
+              context,
+              icon: Icons.refresh,
+              color: Colors.teal,
+              title: 'Change Details',
+              subtitle: 'Re-enter caregiver & elderly info',
+              onTap: () async {
+                Navigator.pop(context);
+                final prev = careContextNotifier.value;
+                careContextNotifier.value = CareContext(
+                  appId: prev.appId,
+                  piId: prev.piId,
+                );
                 await CareContextStorage.save(careContextNotifier.value);
-                Restart.restartApp();
-              }
-            },
-          ),
-        ],
+                // ignore: use_build_context_synchronously
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const CaregiverDetailsPage(),
+                  ),
+                );
+              },
+            ),
+            _tile(
+              context,
+              icon: Icons.logout,
+              color: Colors.redAccent,
+              title: 'Logout',
+              onTap: () async {
+                final shouldLogout = await showDialog<bool>(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Are you sure?'),
+                    content: const Text('Do you really want to logout?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, false),
+                        child: const Text('Cancel'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () => Navigator.pop(context, true),
+                        child: const Text('Logout'),
+                      ),
+                    ],
+                  ),
+                );
+                if (shouldLogout == true) {
+                  await FirebaseAuth.instance.signOut();
+                  careContextNotifier.value = CareContext();
+                  await CareContextStorage.save(careContextNotifier.value);
+                  Restart.restartApp();
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
+}
+
+Widget _tile(BuildContext context,{required IconData icon,required Color color,required String title,String? subtitle,required VoidCallback onTap}) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 6),
+    child: InkWell(
+      borderRadius: BorderRadius.circular(18),
+      onTap: onTap,
+      child: Row(
+        children: [
+          Container(
+            height: 46,
+            width: 46,
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: Icon(icon, color: color, size: 24),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+                if (subtitle != null)
+                  Text(
+                    subtitle,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.grey[300]
+                              : Colors.grey[700],
+                        ),
+                  ),
+              ],
+            ),
+          ),
+          const Icon(Icons.chevron_right, size: 22),
+        ],
+      ),
+    ),
+  );
 }
 
 void showAccountSettingsSheet(BuildContext context) {

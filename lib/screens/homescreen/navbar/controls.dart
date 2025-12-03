@@ -1,5 +1,6 @@
 import 'package:aayumitra/screens/sleepRoutine/routine.dart';
 import 'package:flutter/material.dart';
+import 'package:aayumitra/services/glass_widgets.dart';
 
 class Controlboard extends StatefulWidget {
   const Controlboard({super.key});
@@ -313,86 +314,54 @@ class _ControlboardState extends State<Controlboard> {
               final Color accent = Colors.teal;
               return InkWell(
                 onTap: item['onTap'] as void Function(),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(24),
                 child: Container(
                   margin: const EdgeInsets.only(bottom: 16),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Theme.of(context).brightness == Brightness.dark
-                        ? const Color(0xFF1E1E1E)
-                        : Colors.white,
-                    border: Border.all(color: accent.withOpacity(0.35), width: 1.2),
-                    boxShadow: [
-                      BoxShadow(
-                        color: accent.withOpacity(0.12),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      // Accent strip
-                      Container(
-                        width: 8,
-                        height: 84,
-                        decoration: BoxDecoration(
-                          color: accent,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            bottomLeft: Radius.circular(20),
+                  child: GlassCard(
+                    blur: 14,
+                    opacity: Theme.of(context).brightness == Brightness.dark ? 0.07 : 0.14,
+                    borderOpacity: 0.30,
+                    borderRadius: const BorderRadius.all(Radius.circular(24)),
+                    accentBorder: accent.withOpacity(0.4),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 56,
+                          width: 56,
+                          decoration: BoxDecoration(
+                            color: accent.withOpacity(0.15),
+                            borderRadius: BorderRadius.circular(18),
                           ),
+                          child: Icon(item['icon'] as IconData, size: 30, color: accent),
                         ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                          child: Row(
+                        const SizedBox(width: 20),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                height: 54,
-                                width: 54,
-                                decoration: BoxDecoration(
-                                  color: accent.withOpacity(0.10),
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: Icon(
-                                  item['icon'] as IconData,
-                                  size: 28,
-                                  color: accent,
+                              Text(
+                                item['title'] as String,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              const SizedBox(width: 18),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      item['title'] as String,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 6),
-                                    Text(
-                                      item['subtitle'] as String,
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        color: Theme.of(context).brightness == Brightness.dark
-                                            ? Colors.grey[300]
-                                            : Colors.grey[700],
-                                      ),
-                                    ),
-                                  ],
+                              const SizedBox(height: 6),
+                              Text(
+                                item['subtitle'] as String,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Theme.of(context).brightness == Brightness.dark
+                                      ? Colors.grey[300]
+                                      : Colors.grey[700],
                                 ),
                               ),
-                              Icon(Icons.chevron_right, color: accent, size: 26),
                             ],
                           ),
                         ),
-                      ),
-                    ],
+                        Icon(Icons.chevron_right, color: accent, size: 26),
+                      ],
+                    ),
                   ),
                 ),
               );
