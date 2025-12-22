@@ -1,6 +1,8 @@
 import 'package:aayumitra/screens/sleepRoutine/routine.dart';
 import 'package:flutter/material.dart';
 import 'package:aayumitra/services/glass_widgets.dart';
+import 'package:aayumitra/services/firestore_service.dart';
+import 'package:aayumitra/screens/usermodel/care_models.dart';
 
 class Controlboard extends StatefulWidget {
   const Controlboard({super.key});
@@ -41,10 +43,20 @@ class _ControlboardState extends State<Controlboard> {
               child: const Text('Cancel'),
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 final message = messageController.text.trim();
                 if (message.isNotEmpty) {
-                  print('Message added to conversation history: $message');
+                  final ctx = careContextNotifier.value; // see: [lib/screens/usermodel/care_models.dart](lib/screens/usermodel/care_models.dart)
+                  final appId = ctx.appId ?? 'aayu-mitra-app';
+                  final piId = ctx.piId ?? 'pi-hub-001';
+                  await FirestoreService.instance.addMessage( // see: [`FirestoreService.addMessage`](lib/services/firestore_service.dart)
+                    appId: appId,
+                    piId: piId,
+                    message: {
+                      'text': message,
+                      'created_at': DateTime.now().toIso8601String(),
+                    },
+                  );
                 }
                 Navigator.pop(context);
               },
@@ -196,20 +208,29 @@ class _ControlboardState extends State<Controlboard> {
               child: const Text('Cancel'),
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (labelController.text.trim().isNotEmpty &&
                     selectedDate != null &&
                     selectedTime != null) {
+                  final ctx = careContextNotifier.value;
+                  final appId = ctx.appId ?? 'aayu-mitra-app';
+                  final piId = ctx.piId ?? 'pi-hub-001';
+
                   final reminder = {
                     'label': labelController.text.trim(),
                     'details': detailsController.text.trim(),
-                    'date': selectedDate,
-                    'time': selectedTime,
+                    'date': selectedDate!.toIso8601String().split('T').first,
+                    'time': selectedTime!.format(context),
                     'priority': selectedPriority,
+                    'created_at': DateTime.now().toIso8601String(),
                   };
-                  // Add the reminder to your reminder list
-                  // Replace this with your logic to handle reminders
-                  print('Reminder added: $reminder');
+
+                  await FirestoreService.instance.addReminder( // see: [`FirestoreService.addReminder`](lib/services/firestore_service.dart)
+                    appId: appId,
+                    piId: piId,
+                    reminder: reminder,
+                  );
+
                   Navigator.pop(context);
                 }
               },

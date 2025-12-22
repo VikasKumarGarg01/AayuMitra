@@ -35,9 +35,9 @@ class _MedicationRoutinePageState extends State<MedicationRoutinePage> {
                 builder: (context, ctx, _) {
                   final appId = ctx.appId ?? 'aayu-mitra-app';
                   final piId = ctx.piId ?? 'pi-hub-001';
-          final query = FirestoreService.instance
-            .collection(appId, 'medication')
-            .where('pi_id', isEqualTo: piId);
+                  final query = FirestoreService.instance
+                      .collection(appId, 'medication')
+                      .where('piId', isEqualTo: piId);
                   return StreamBuilder(
                     stream: query.snapshots(),
                     builder: (context, snapshot) {
